@@ -80,6 +80,7 @@
             @endif
 
             <div class="content">
+                <example-component></example-component>
                 <div class="title m-b-md">
                     Laravel
                 </div>
