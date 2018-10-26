@@ -17,7 +17,7 @@
 
 <section class="container menu">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="index.html">MyMessenger</a>
+        <a class="navbar-brand" href="{{route('home')}}">MyMessenger</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -25,7 +25,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="index.html">Главная <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{{route('home')}}">Главная <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="messages.html">Сообщения</a>
@@ -33,12 +33,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="profile.html">Мой профиль</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.html">Войти</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sign_up.html">Зарегистрироваться</a>
-                </li>
+                @guest
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('login')}}">Войти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('register')}}">Зарегистрироваться</a>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <form method="POST" action="{{route('logout')}}" id="logout-form">
+                            @csrf
+                        </form>
+                        <a class="nav-link" href="#" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">Выйти</a>
+                    </li>
+                @endguest
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
@@ -48,117 +58,7 @@
     </nav>
 </section>
 
-<section class="all-users">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <h2>Все пользователи</h2>
-            </div>
-        </div>
-        <div class="user">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="img-wrapp">
-                        <a href="#">
-                            <img src="{{asset('img/user1.jpg')}}" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <div class="row">
-                        <div class="col">
-                            <div class="users-info">
-                                <h5>
-                                    <a href="#" class="name">
-                                        Имя Фамилия
-                                    </a>
-                                </h5>
-                                <a href="message.html" class="write-msg">Написать сообщение</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="user">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="img-wrapp">
-                        <a href="#">
-                            <img src="{{asset('img/user2.jpg')}}" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <div class="row">
-                        <div class="col">
-                            <div class="users-info">
-                                <h5>
-                                    <a href="#" class="name">
-                                        Имя Фамилия
-                                    </a>
-                                </h5>
-                                <a href="message.html" class="write-msg">Написать сообщение</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="user">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="img-wrapp">
-                        <a href="#">
-                            <img src="{{asset('img/user1.jpg')}}" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <div class="row">
-                        <div class="col">
-                            <div class="users-info">
-                                <h5>
-                                    <a href="#" class="name">
-                                        Имя Фамилия
-                                    </a>
-                                </h5>
-                                <a href="message.html" class="write-msg">Написать сообщение</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<section class="pagination">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <ul>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                    </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li>
-                        <a href="#">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
+@yield('content')
 
 <footer>
     <div class="container">
