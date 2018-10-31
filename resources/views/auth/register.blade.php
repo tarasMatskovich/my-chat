@@ -1,12 +1,15 @@
 @extends('layouts.main')
 
+@push('scripts')
+    <script type="text/javascript" src="{{asset('js/register.js')}}"></script>
+@endpush
 @section('content')
 <section class="login">
     <div class="container">
         <h2>Зарегистрируйтесь, чтобы начать пользоваться MyMessenger</h2>
         <div class="row justify-content-center">
             <div class="col-8">
-                <form method="POST" action="{{route('register')}}">
+                <form method="POST" action="{{route('register')}}" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label for="email">Введите свой email:</label>
@@ -85,6 +88,7 @@
                                 <strong>{{ $errors->first('image') }}</strong>
                             </span>
                         @endif
+                        <div id="output"></div>
                     </div>
                     <div class="form-group">
                         <label for="password">Ваш пароль:</label>

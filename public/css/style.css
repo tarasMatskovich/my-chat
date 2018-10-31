@@ -165,6 +165,10 @@ img {
 	text-decoration: none;
 }
 
+.pagination ul li a.active {
+	color: #28a745;
+}
+
 .footer-wrapp {
 	background-color: #f8f9fa;
 	padding: 20px;
@@ -459,6 +463,10 @@ footer ul li:last-child {
 
 .login {
 	margin-bottom: 40px;
+}
+
+#output {
+	position: relative;
 }
 
 

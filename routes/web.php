@@ -13,6 +13,8 @@
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [\App\Http\Controllers\MainController::class, 'index'])->name('home');
+    Route::get('/user/{id}', [\App\Http\Controllers\UserController::class, 'user'])->name('user');
+    Route::post('/users', [\App\Http\Controllers\UserController::class, 'users'])->name('users');
 });
 
 Auth::routes();

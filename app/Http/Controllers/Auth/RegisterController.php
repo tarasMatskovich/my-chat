@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class RegisterController extends Controller
 {
@@ -52,13 +53,14 @@ class RegisterController extends Controller
         return Validator::make(
             $data,
             [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'age' => ['required'],
-            'phone' => ['required', 'string'],
-                ],
+                'first_name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+                'age' => ['required'],
+                'phone' => ['required', 'string'],
+                'image' => 'image'
+            ],
             [
                 'first_name.required' => 'Поле :attribute обезательно к заполнению.',
                 'first_name.string' => 'Поле :attribute должно быть строковым.',
@@ -102,6 +104,13 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = new User($data);
+        if (isset($data['image'])) {
+            $inputImage = $data['image'];
+            $filename = time() . '.' . $inputImage->getClientOriginalExtension();
+            $path = public_path('img/users/' . $filename);
+            Image::make($data['image'])->fit(350)->save($path);
+            $user->img = $filename;
+        }
         $user->password = Hash::make($data['password']);
         $user->save();
         return $user;
