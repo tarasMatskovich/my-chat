@@ -13,7 +13,10 @@
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [\App\Http\Controllers\MainController::class, 'index'])->name('home');
+    Route::get('/user/edit', [\App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
     Route::get('/user/{id}', [\App\Http\Controllers\UserController::class, 'user'])->name('user');
+    Route::post('/user/update', [\App\Http\Controllers\UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/delete', [\App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
     Route::post('/users', [\App\Http\Controllers\UserController::class, 'users'])->name('users');
 });
 

@@ -469,6 +469,23 @@ footer ul li:last-child {
 	position: relative;
 }
 
+.a-button {
+	display: inline-block!important;
+	margin-bottom: 20px;
+}
+
+#output {
+	margin-top: 10px;
+}
+
+#output .user-image {
+	width: 50%;
+}
+
+.success-messages {
+	margin-top: 15px;
+}
+
 
 
 

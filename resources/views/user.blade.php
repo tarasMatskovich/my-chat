@@ -68,16 +68,42 @@
                 <div class="edit">
                     <div class="row">
                         <div class="col">
-                            <button type="button" class="btn btn-outline-info">Редактировать страницу</button>
+                            <a href="{{route('user.edit')}}" class="btn btn-outline-info a-button">Редактировать страницу</a>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <button type="button" class="btn btn-outline-danger">Удалить страницу</button>
+                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteProfile">Удалить страницу</button>
                         </div>
                     </div>
                 </div>
             @endif
         </div>
     </section>
+
+    <form action="{{route('user.delete')}}" method="POST" id="deleteUserForm">
+        @csrf
+        @method('delete')
+    </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteProfile" tabindex="-1" role="dialog" aria-labelledby="deleteProfileLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteProfileLabel">Удаление страницы.</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Вы действительно хотите удалить навсегда свою страницу?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                    <button type="submit" form="deleteUserForm" class="btn btn-danger" id="deleteUser">Да, хочу удалить страницу</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

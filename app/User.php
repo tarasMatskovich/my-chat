@@ -43,4 +43,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $guarded = [];
+
+    public function deleteImage()
+    {
+        app(\Illuminate\Filesystem\Filesystem::class)->delete(public_path('img/users/' . $this->img));
+    }
 }

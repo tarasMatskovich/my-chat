@@ -71,9 +71,7 @@
                     </div>
                     <div class="form-group">
                         <label for="about">Роскажите о себе:</label>
-                        <textarea name="about" id="about" placeholder="О себе" class="form-control{{ $errors->has('about') ? ' is-invalid' : '' }}" rows="10" >
-                            {{old('about') ? old('about') : ""}}
-                        </textarea>
+                        <textarea name="about" id="about" placeholder="О себе" class="form-control{{ $errors->has('about') ? ' is-invalid' : '' }}" rows="10" >{{old('about') ? old('about') : ""}}</textarea>
                         @if ($errors->has('about'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('about') }}</strong>
