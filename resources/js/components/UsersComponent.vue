@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="img-wrapp">
-                        <a href="#">
+                        <a :href="user.user_route">
                             <img :src="renderImage(user)" alt="">
                         </a>
                     </div>
@@ -14,7 +14,7 @@
                         <div class="col">
                             <div class="users-info">
                                 <h5>
-                                    <a href="#" class="name">
+                                    <a :href="user.user_route" class="name">
                                         {{user.first_name}} {{user.last_name}}
                                     </a>
                                 </h5>

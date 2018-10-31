@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,7 @@ class UserController extends Controller
 
     public function users(Request $request)
     {
-        $users = User::offset(($request->page - 1) * self::USERS_PER_PAGE)->limit(self::USERS_PER_PAGE)->get();
+        $users = UserResource::collection(User::offset(($request->page - 1) * self::USERS_PER_PAGE)->limit(self::USERS_PER_PAGE)->get());
         return [
             'users' => $users,
             'totalUsers' => User::count()

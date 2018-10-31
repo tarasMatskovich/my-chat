@@ -47553,7 +47553,7 @@ var render = function() {
               _c("div", { staticClass: "row" }, [
                 _c("div", { staticClass: "col-md-2" }, [
                   _c("div", { staticClass: "img-wrapp" }, [
-                    _c("a", { attrs: { href: "#" } }, [
+                    _c("a", { attrs: { href: user.user_route } }, [
                       _c("img", {
                         attrs: { src: _vm.renderImage(user), alt: "" }
                       })
@@ -47568,7 +47568,10 @@ var render = function() {
                         _c("h5", [
                           _c(
                             "a",
-                            { staticClass: "name", attrs: { href: "#" } },
+                            {
+                              staticClass: "name",
+                              attrs: { href: user.user_route }
+                            },
                             [
                               _vm._v(
                                 "\n                                    " +
