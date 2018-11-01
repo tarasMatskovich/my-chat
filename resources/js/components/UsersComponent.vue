@@ -5,7 +5,7 @@
                 <div class="col-md-2">
                     <div class="img-wrapp">
                         <a :href="user.user_route">
-                            <img :src="renderImage(user)" alt="">
+                            <img :src="renderImage(user)" onerror="this.className +=' invalid'" alt="" class="image-error">
                         </a>
                     </div>
                 </div>
@@ -53,6 +53,10 @@
                     this.totalUsers = res.data.totalUsers;
 
                     this.currentPage = page;
+
+                    $('.image-error').on('error', (e) => {
+                        $('.image-error.invalid').attr('src', this.defaultImage);
+                    });
                 });
             },
             renderImage(user) {
