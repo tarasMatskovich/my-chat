@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="img-wrapp">
-                        <img src="{{$user->img ? asset("img/users/{$user->img}") : asset("img/no-photo.png")}}" alt="" class="img-animated">
+                        <img src="{{$user->img ? asset("img/users/{$user->img}") : asset("img/no-photo.png")}}" onerror="this.src='{{asset('img/no-photo.png')}}';" alt="" class="img-animated">
                     </div>
                 </div>
                 <div class="col-sm-8">
