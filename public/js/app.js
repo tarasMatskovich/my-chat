@@ -57955,115 +57955,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -58077,15 +57968,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId'],
     methods: {
-        send: function send() {
-            alert(this.message);
-            this.message = null;
+        pushToChats: function pushToChats(message) {
+            this.messages.push({
+                message: message,
+                type: 0,
+                send_at: 'Just now',
+                read_at: null
+            });
         },
-        getAllMessages: function getAllMessages() {
+        send: function send() {
             var _this = this;
 
+            if (this.message) {
+                this.pushToChats(this.message);
+                axios.post('/send/' + this.sessionId, {
+                    content: this.message,
+                    to_user: this.user2.id
+                }).then(function (res) {
+                    _this.messages[_this.messages.length - 1].id = res.data;
+                });
+                this.message = null;
+            }
+        },
+        getAllMessages: function getAllMessages() {
+            var _this2 = this;
+
             axios.post('/session/' + this.sessionId + '/chats').then(function (res) {
-                _this.messages = res.data.data;
+                _this2.messages = res.data.data;
             });
         }
     },
@@ -58171,7 +58080,7 @@ var render = function() {
                           _c("a", { attrs: { href: "#" } }, [
                             _c("img", {
                               attrs: {
-                                src: _vm.asset + "/" + _vm.user2.img,
+                                src: _vm.asset + "/" + _vm.user1.img,
                                 alt: ""
                               }
                             })
@@ -58227,7 +58136,7 @@ var render = function() {
                           _c("a", { attrs: { href: "#" } }, [
                             _c("img", {
                               attrs: {
-                                src: _vm.asset + "/" + _vm.user1.img,
+                                src: _vm.asset + "/" + _vm.user2.img,
                                 alt: ""
                               }
                             })

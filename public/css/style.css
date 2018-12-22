@@ -358,6 +358,10 @@ footer ul li:last-child {
 	margin-bottom: 20px;
 }
 
+.user-message .msg-info {
+	margin-bottom: 15px;
+}
+
 .user-message .msg-info .msg {
 	background-color: rgba(130,196,76,.8);
 	border-radius: 7px;

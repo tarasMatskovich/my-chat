@@ -44,7 +44,7 @@
                         <div :class="{'col-md-1 col-2':message.type == 0, 'col-md-4 col-3':message.type == 1}">
                             <div class="img-wrapp" v-if="message.type == 0">
                                 <a href="#">
-                                    <img :src="asset + '/' + user2.img" alt="">
+                                    <img :src="asset + '/' + user1.img" alt="">
                                 </a>
                             </div>
                             <div class="date text-right" v-else>
@@ -62,121 +62,12 @@
                             </div>
                             <div class="img-wrapp" v-else>
                                 <a href="#">
-                                    <img :src="asset + '/' + user1.img" alt="">
+                                    <img :src="asset + '/' + user2.img" alt="">
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-                <!--<div class="msg-info">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-1 col-2">-->
-                            <!--<div class="img-wrapp">-->
-                                <!--<a href="#">-->
-                                    <!--<img src="img/user2.jpg" alt="">-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-7 col-7">-->
-                            <!--<div class="msg">-->
-                                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-4 col-3">-->
-                            <!--<div class="date">-->
-                                <!--22:45-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="msg-info">-->
-                    <!--<div class="row justify-content-end">-->
-                        <!--<div class="col-md-4 col-3">-->
-                            <!--<div class="date text-right">-->
-                                <!--13:19-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-7 col-7">-->
-                            <!--<div class="msg answer">-->
-                                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores harum, nulla numquam delectus. Minus, commodi, pariatur. Eius cumque, ducimus aliquid iusto quidem earum, nisi iste. Recusandae quos magnam perferendis velit!-->
-                                <!--Nulla culpa harum voluptates non itaque et provident impedit in totam quia, magni sit odit laboriosam autem, nobis reiciendis quod consectetur dolor rem aliquam praesentium modi, voluptatem eligendi magnam possimus.-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-1 col-2">-->
-                            <!--<div class="img-wrapp">-->
-                                <!--<a href="#">-->
-                                    <!--<img src="img/user1.jpg" alt="">-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="msg-info">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-1 col-2">-->
-                            <!--<div class="img-wrapp">-->
-                                <!--<a href="#">-->
-                                    <!--<img src="img/user2.jpg" alt="">-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-7 col-7">-->
-                            <!--<div class="msg">-->
-                                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-4 col-3">-->
-                            <!--<div class="date">-->
-                                <!--22:45-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="msg-info">-->
-                    <!--<div class="row justify-content-end">-->
-                        <!--<div class="col-md-4 col-3">-->
-                            <!--<div class="date text-right">-->
-                                <!--13:19-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-7 col-7">-->
-                            <!--<div class="msg answer">-->
-                                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores harum, nulla numquam delectus. Minus, commodi, pariatur. Eius cumque, ducimus aliquid iusto quidem earum, nisi iste. Recusandae quos magnam perferendis velit!-->
-                                <!--Nulla culpa harum voluptates non itaque et provident impedit in totam quia, magni sit odit laboriosam autem, nobis reiciendis quod consectetur dolor rem aliquam praesentium modi, voluptatem eligendi magnam possimus.-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-1 col-2">-->
-                            <!--<div class="img-wrapp">-->
-                                <!--<a href="#">-->
-                                    <!--<img src="img/user1.jpg" alt="">-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="msg-info">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-1 col-2">-->
-                            <!--<div class="img-wrapp">-->
-                                <!--<a href="#">-->
-                                    <!--<img src="img/user2.jpg" alt="">-->
-                                <!--</a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-7 col-7">-->
-                            <!--<div class="msg">-->
-                                <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-4 col-3">-->
-                            <!--<div class="date">-->
-                                <!--22:45-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
             </div>
 
 
@@ -206,9 +97,25 @@
         },
         props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId'],
         methods: {
+            pushToChats(message) {
+                this.messages.push({
+                    message:message,
+                    type:0,
+                    send_at:'Just now',
+                    read_at:null
+                });
+            },
             send() {
-                alert(this.message);
-                this.message = null;
+                if (this.message) {
+                    this.pushToChats(this.message);
+                    axios.post(`/send/${this.sessionId}`, {
+                        content : this.message,
+                        to_user : this.user2.id
+                    }).then(res => {
+                        this.messages[this.messages.length - 1].id = res.data;
+                    });
+                    this.message = null;
+                }
             },
             getAllMessages() {
                 axios.post(`/session/${this.sessionId}/chats`).then(res => {

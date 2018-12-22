@@ -35,4 +35,13 @@ class MessagesController extends Controller
     {
         return MessageResource::collection($session->chats()->where('user_id', auth()->id())->get());
     }
+
+    public function send(Session $session, Request $request)
+    {
+        $message = $session->messages()->create(['content' => $request->content]);
+        $chat = $message->createForSend($session->id, auth()->id());
+        $message->createForReceive($session->id, $request->to_user);
+//        broadcast(new PrivateChatEvent($message->content, $chat));
+        return response($chat->id, 200);
+    }
 }
