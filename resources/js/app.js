@@ -16,6 +16,7 @@ Vue.use(require('vue-chat-scroll'));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('main-component', require('./components/MainComponent'));
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('users-component', require('./components/UsersComponent.vue'));
 Vue.component('pagination-component', require('./components/PaginationComponent.vue'));
