@@ -14005,6 +14005,7 @@ module.exports = __webpack_require__(51);
 __webpack_require__(14);
 
 window.Vue = __webpack_require__(39);
+Vue.use(__webpack_require__(59));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -57994,6 +57995,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             axios.post('/session/' + this.sessionId + '/chats').then(function (res) {
+                console.log(res);
                 _this2.messages = res.data.data;
             });
         }
@@ -58054,7 +58056,10 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "messages" },
+        {
+          directives: [{ name: "chat-scroll", rawName: "v-chat-scroll" }],
+          staticClass: "messages"
+        },
         _vm._l(_vm.messages, function(message) {
           return _c("div", { staticClass: "msg-info" }, [
             _c(
@@ -58242,6 +58247,78 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-3f20c7be", module.exports)
   }
 }
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global['vue-chat-scroll'] = factory());
+}(this, (function () { 'use strict';
+
+/**
+* @name VueJS vChatScroll (vue-chat-scroll)
+* @description Monitors an element and scrolls to the bottom if a new child is added
+* @author Theodore Messinezis <theo@theomessin.com>
+* @file v-chat-scroll  directive definition
+*/
+
+var scrollToBottom = function scrollToBottom(el, smooth) {
+  if (typeof el.scroll === "function") {
+    el.scroll({
+      top: el.scrollHeight,
+      behavior: smooth ? 'smooth' : 'instant'
+    });
+  } else {
+    el.scrollTop = el.scrollHeight;
+  }
+};
+
+var vChatScroll = {
+  bind: function bind(el, binding) {
+    var scrolled = false;
+
+    el.addEventListener('scroll', function (e) {
+      scrolled = el.scrollTop + el.clientHeight + 1 < el.scrollHeight;
+    });
+
+    new MutationObserver(function (e) {
+      var config = binding.value || {};
+      var pause = config.always === false && scrolled;
+      if (config.scrollonremoved) {
+        if (pause || e[e.length - 1].addedNodes.length != 1 && e[e.length - 1].removedNodes.length != 1) return;
+      } else {
+        if (pause || e[e.length - 1].addedNodes.length != 1) return;
+      }
+      scrollToBottom(el, config.smooth);
+    }).observe(el, { childList: true, subtree: true });
+  },
+  inserted: scrollToBottom
+};
+
+/**
+* @name VueJS vChatScroll (vue-chat-scroll)
+* @description Monitors an element and scrolls to the bottom if a new child is added
+* @author Theodore Messinezis <theo@theomessin.com>
+* @file vue-chat-scroll plugin definition
+*/
+
+var VueChatScroll = {
+  install: function install(Vue, options) {
+    Vue.directive('chat-scroll', vChatScroll);
+  }
+};
+
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(VueChatScroll);
+}
+
+return VueChatScroll;
+
+})));
+
 
 /***/ })
 /******/ ]);

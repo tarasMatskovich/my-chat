@@ -19,7 +19,7 @@ class MessagesController extends Controller
     {
         $user2 = User::findOrFail($id);
         $session = Session::where(['user1_id' => $id, 'user2_id' => auth()->id()])
-            ->orWhere(['user1_id'=>auth()->id(), 'user2_id' => $id])->first();
+            ->orWhere(['user1_id' => auth()->id(), 'user2_id' => $id])->first();
 
 
         // if session between two users does not exist - create a new session

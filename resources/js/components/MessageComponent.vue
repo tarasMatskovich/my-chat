@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="messages">
+            <div class="messages" v-chat-scroll>
                 <div class="msg-info" v-for="message in messages">
                     <div :class="{'row':message.type == 0, 'row justify-content-end':message.type == 1}">
                         <div :class="{'col-md-1 col-2':message.type == 0, 'col-md-4 col-3':message.type == 1}">
@@ -119,6 +119,7 @@
             },
             getAllMessages() {
                 axios.post(`/session/${this.sessionId}/chats`).then(res => {
+                    console.log(res);
                     this.messages = res.data.data;
                 });
             }
