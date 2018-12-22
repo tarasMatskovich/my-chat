@@ -20,6 +20,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/users', [\App\Http\Controllers\UserController::class, 'users'])->name('users');
 
     Route::get('/messages/{id}', [\App\Http\Controllers\MessagesController::class, 'message'])->name('messages.message');
+
+    Route::post('/session/{session}/chats', [\App\Http\Controllers\MessagesController::class, 'chats'])->name('messages.chats');
 });
 
 Auth::routes();

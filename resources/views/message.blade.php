@@ -1,5 +1,11 @@
 @extends('layouts.main')
 
 @section('content')
-    <message-component></message-component>
+    <message-component
+            user-one='<?=auth()->user()?>'
+            user-two='<?=$user2?>'
+            asset="<?=asset('img/users')?>"
+            default-image="<?=asset('img') . '/no-photo.png'?>"
+            session-id="<?=$session->id?>"
+    ></message-component>
 @endsection

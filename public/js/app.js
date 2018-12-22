@@ -58028,8 +58028,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            user1: JSON.parse(this.userOne),
+            user2: JSON.parse(this.userTwo),
+            message: null,
+            messages: []
+        };
+    },
+
+    props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId'],
+    methods: {
+        send: function send() {
+            alert(this.message);
+            this.message = null;
+        },
+        getAllMessages: function getAllMessages() {
+            axios.post('/session/' + this.sessionId + '/chats').then(function (res) {
+                console.log(res.data);
+            });
+        }
+    },
+    created: function created() {
+        this.getAllMessages();
+    }
+});
 
 /***/ }),
 /* 58 */
@@ -58039,217 +58069,131 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("section", { staticClass: "user-message" }, [
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "controls" }, [
+        _c("div", { staticClass: "row" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-8" }, [
+            _c("div", { staticClass: "info" }, [
+              _c("a", { attrs: { href: "#" } }, [
+                _vm._v(
+                  _vm._s(_vm.user2.first_name) +
+                    " " +
+                    _vm._s(_vm.user2.last_name)
+                )
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  "\n                            был в сети сегодня в 1:29\n                        "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-2" }, [
+            _c("div", { staticClass: "dop-info" }, [
+              _c("i", { staticClass: "fas fa-ellipsis-h more-msg-info" }),
+              _vm._v(" "),
+              _vm._m(1),
+              _vm._v(" "),
+              _c("a", { staticClass: "img sm-hide", attrs: { href: "#" } }, [
+                _c("img", {
+                  attrs: { src: _vm.asset + "/" + _vm.user2.img, alt: "" }
+                })
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "messages" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "send-message" }, [
+        _c("div", { staticClass: "row justify-content-center" }, [
+          _c("div", { staticClass: "col-10" }, [
+            _c(
+              "form",
+              {
+                staticClass: "form-group",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.send($event)
+                  }
+                }
+              },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.message,
+                      expression: "message"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Напишите сообщение..." },
+                  domProps: { value: _vm.message },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.message = $event.target.value
+                    }
+                  }
+                })
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "user-message" }, [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "controls" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-2" }, [
-              _c("a", { staticClass: "back", attrs: { href: "#" } }, [
-                _c("i", { staticClass: "fas fa-chevron-left" })
-              ]),
-              _vm._v(" "),
-              _c("a", { staticClass: "back sm-hide", attrs: { href: "#" } }, [
-                _vm._v("Назад")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-8" }, [
-              _c("div", { staticClass: "info" }, [
-                _c("a", { attrs: { href: "#" } }, [_vm._v("Имя Фамилия")]),
-                _c("br"),
-                _vm._v(" "),
-                _c("p", [
-                  _vm._v(
-                    "\n                            был в сети сегодня в 1:29\n                        "
-                  )
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-2" }, [
-              _c("div", { staticClass: "dop-info" }, [
-                _c("i", { staticClass: "fas fa-ellipsis-h more-msg-info" }),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "sub-menu",
-                    attrs: { id: "show-more-info-msg" }
-                  },
-                  [
-                    _c("ul", [
-                      _c("li", [
-                        _c("a", { attrs: { href: "#" } }, [
-                          _vm._v("Очистить историю сообщений")
-                        ])
-                      ])
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("a", { staticClass: "img sm-hide", attrs: { href: "#" } }, [
-                  _c("img", { attrs: { src: "img/user1.jpg", alt: "" } })
-                ])
-              ])
+    return _c("div", { staticClass: "col-2" }, [
+      _c("a", { staticClass: "back", attrs: { href: "#" } }, [
+        _c("i", { staticClass: "fas fa-chevron-left" })
+      ]),
+      _vm._v(" "),
+      _c("a", { staticClass: "back sm-hide", attrs: { href: "#" } }, [
+        _vm._v("Назад")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "sub-menu", attrs: { id: "show-more-info-msg" } },
+      [
+        _c("ul", [
+          _c("li", [
+            _c("a", { attrs: { href: "#" } }, [
+              _vm._v("Очистить историю сообщений")
             ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "msg-info" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-1 col-2" }, [
-              _c("div", { staticClass: "img-wrapp" }, [
-                _c("a", { attrs: { href: "#" } }, [
-                  _c("img", { attrs: { src: "img/user2.jpg", alt: "" } })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-7 col-7" }, [
-              _c("div", { staticClass: "msg" }, [
-                _vm._v(
-                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-4 col-3" }, [
-              _c("div", { staticClass: "date" }, [
-                _vm._v("\n                        22:45\n                    ")
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "msg-info" }, [
-          _c("div", { staticClass: "row justify-content-end" }, [
-            _c("div", { staticClass: "col-md-4 col-3" }, [
-              _c("div", { staticClass: "date text-right" }, [
-                _vm._v("\n                        13:19\n                    ")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-7 col-7" }, [
-              _c("div", { staticClass: "msg answer" }, [
-                _vm._v(
-                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores harum, nulla numquam delectus. Minus, commodi, pariatur. Eius cumque, ducimus aliquid iusto quidem earum, nisi iste. Recusandae quos magnam perferendis velit!\n                        Nulla culpa harum voluptates non itaque et provident impedit in totam quia, magni sit odit laboriosam autem, nobis reiciendis quod consectetur dolor rem aliquam praesentium modi, voluptatem eligendi magnam possimus.\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-1 col-2" }, [
-              _c("div", { staticClass: "img-wrapp" }, [
-                _c("a", { attrs: { href: "#" } }, [
-                  _c("img", { attrs: { src: "img/user1.jpg", alt: "" } })
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "msg-info" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-1 col-2" }, [
-              _c("div", { staticClass: "img-wrapp" }, [
-                _c("a", { attrs: { href: "#" } }, [
-                  _c("img", { attrs: { src: "img/user2.jpg", alt: "" } })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-7 col-7" }, [
-              _c("div", { staticClass: "msg" }, [
-                _vm._v(
-                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-4 col-3" }, [
-              _c("div", { staticClass: "date" }, [
-                _vm._v("\n                        22:45\n                    ")
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "msg-info" }, [
-          _c("div", { staticClass: "row justify-content-end" }, [
-            _c("div", { staticClass: "col-md-4 col-3" }, [
-              _c("div", { staticClass: "date text-right" }, [
-                _vm._v("\n                        13:19\n                    ")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-7 col-7" }, [
-              _c("div", { staticClass: "msg answer" }, [
-                _vm._v(
-                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores harum, nulla numquam delectus. Minus, commodi, pariatur. Eius cumque, ducimus aliquid iusto quidem earum, nisi iste. Recusandae quos magnam perferendis velit!\n                        Nulla culpa harum voluptates non itaque et provident impedit in totam quia, magni sit odit laboriosam autem, nobis reiciendis quod consectetur dolor rem aliquam praesentium modi, voluptatem eligendi magnam possimus.\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-1 col-2" }, [
-              _c("div", { staticClass: "img-wrapp" }, [
-                _c("a", { attrs: { href: "#" } }, [
-                  _c("img", { attrs: { src: "img/user1.jpg", alt: "" } })
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "msg-info" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-md-1 col-2" }, [
-              _c("div", { staticClass: "img-wrapp" }, [
-                _c("a", { attrs: { href: "#" } }, [
-                  _c("img", { attrs: { src: "img/user2.jpg", alt: "" } })
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-7 col-7" }, [
-              _c("div", { staticClass: "msg" }, [
-                _vm._v(
-                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!\n                    "
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-4 col-3" }, [
-              _c("div", { staticClass: "date" }, [
-                _vm._v("\n                        22:45\n                    ")
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "send-message" }, [
-          _c("div", { staticClass: "row justify-content-center" }, [
-            _c("div", { staticClass: "col-10" }, [
-              _c("div", { staticClass: "form-group" }, [
-                _c("textarea", {
-                  staticClass: "form-control",
-                  attrs: {
-                    name: "",
-                    id: "",
-                    placeholder: "Напишите сообщение..."
-                  }
-                })
-              ])
+          ]),
+          _vm._v(" "),
+          _c("li", [
+            _c("a", { attrs: { href: "#" } }, [
+              _vm._v("Заблокировать пользователя")
             ])
           ])
         ])
-      ])
-    ])
+      ]
+    )
   }
 ]
 render._withStripped = true

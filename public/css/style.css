@@ -267,6 +267,12 @@ footer ul li:last-child {
 	margin-top: 40px;
 }
 
+.user-message .messages {
+	max-height: 400px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
 .user-message .dop-info {
 	position: relative;
 }
