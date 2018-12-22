@@ -58033,6 +58033,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -58051,8 +58082,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.message = null;
         },
         getAllMessages: function getAllMessages() {
+            var _this = this;
+
             axios.post('/session/' + this.sessionId + '/chats').then(function (res) {
-                console.log(res.data);
+                _this.messages = res.data.data;
             });
         }
     },
@@ -58110,7 +58143,103 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "messages" }),
+      _c(
+        "div",
+        { staticClass: "messages" },
+        _vm._l(_vm.messages, function(message) {
+          return _c("div", { staticClass: "msg-info" }, [
+            _c(
+              "div",
+              {
+                class: {
+                  row: message.type == 0,
+                  "row justify-content-end": message.type == 1
+                }
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    class: {
+                      "col-md-1 col-2": message.type == 0,
+                      "col-md-4 col-3": message.type == 1
+                    }
+                  },
+                  [
+                    message.type == 0
+                      ? _c("div", { staticClass: "img-wrapp" }, [
+                          _c("a", { attrs: { href: "#" } }, [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.asset + "/" + _vm.user2.img,
+                                alt: ""
+                              }
+                            })
+                          ])
+                        ])
+                      : _c("div", { staticClass: "date text-right" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(message.send_at) +
+                              "\n                        "
+                          )
+                        ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-7 col-7" }, [
+                  _c(
+                    "div",
+                    {
+                      class: {
+                        msg: message.type == 0,
+                        "msg answer": message.type == 1
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(message.message) +
+                          "\n                        "
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    class: {
+                      "col-md-4 col-3": message.type == 0,
+                      "col-md-1 col-2": message.type == 1
+                    }
+                  },
+                  [
+                    message.type == 0
+                      ? _c("div", { staticClass: "date" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(message.send_at) +
+                              "\n                        "
+                          )
+                        ])
+                      : _c("div", { staticClass: "img-wrapp" }, [
+                          _c("a", { attrs: { href: "#" } }, [
+                            _c("img", {
+                              attrs: {
+                                src: _vm.asset + "/" + _vm.user1.img,
+                                alt: ""
+                              }
+                            })
+                          ])
+                        ])
+                  ]
+                )
+              ]
+            )
+          ])
+        })
+      ),
       _vm._v(" "),
       _c("div", { staticClass: "send-message" }, [
         _c("div", { staticClass: "row justify-content-center" }, [

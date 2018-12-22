@@ -39,6 +39,37 @@
                 </div>
             </div>
             <div class="messages">
+                <div class="msg-info" v-for="message in messages">
+                    <div :class="{'row':message.type == 0, 'row justify-content-end':message.type == 1}">
+                        <div :class="{'col-md-1 col-2':message.type == 0, 'col-md-4 col-3':message.type == 1}">
+                            <div class="img-wrapp" v-if="message.type == 0">
+                                <a href="#">
+                                    <img :src="asset + '/' + user2.img" alt="">
+                                </a>
+                            </div>
+                            <div class="date text-right" v-else>
+                                {{message.send_at}}
+                            </div>
+                        </div>
+                        <div class="col-md-7 col-7">
+                            <div :class="{'msg':message.type == 0, 'msg answer':message.type == 1}">
+                                {{message.message}}
+                            </div>
+                        </div>
+                        <div :class="{'col-md-4 col-3':message.type == 0, 'col-md-1 col-2':message.type == 1}">
+                            <div class="date" v-if="message.type == 0">
+                                {{message.send_at}}
+                            </div>
+                            <div class="img-wrapp" v-else>
+                                <a href="#">
+                                    <img :src="asset + '/' + user1.img" alt="">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <!--<div class="msg-info">-->
                     <!--<div class="row">-->
                         <!--<div class="col-md-1 col-2">-->
@@ -181,7 +212,7 @@
             },
             getAllMessages() {
                 axios.post(`/session/${this.sessionId}/chats`).then(res => {
-                    console.log(res.data);
+                    this.messages = res.data.data;
                 });
             }
 
