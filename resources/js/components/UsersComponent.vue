@@ -21,7 +21,7 @@
                                         <i class="fas fa-circle online"></i>
                                     </span>
                                 </h5>
-                                <a href="message.html" class="write-msg">Написать сообщение</a>
+                                <a :href="messageUrl + '/' + user.id" class="write-msg">Написать сообщение</a>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                 onlineUsers: []
             };
         },
-        props: ['asset', 'defaultImage'],
+        props: ['asset', 'defaultImage', 'messageUrl'],
         methods: {
             getUsers: function (page) {
                 axios.post('/users',{page:page}).then(res => {

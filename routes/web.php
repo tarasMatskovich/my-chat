@@ -19,6 +19,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/user/delete', [\App\Http\Controllers\UserController::class, 'delete'])->name('user.delete');
     Route::post('/users', [\App\Http\Controllers\UserController::class, 'users'])->name('users');
 
+    Route::get('/messages/{id}', [\App\Http\Controllers\MessagesController::class, 'message'])->name('messages.message');
 });
 
 Auth::routes();

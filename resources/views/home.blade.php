@@ -11,6 +11,7 @@
             <users-component
                     asset="<?=asset('img/users')?>"
                     default-image="<?=asset('img') . '/no-photo.png'?>"
+                    message-url="<?=route('messages.message',['id'=>''])?>"
             ></users-component>
         </div>
     </section>

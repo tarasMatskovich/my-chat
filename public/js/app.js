@@ -14015,6 +14015,7 @@ window.Vue = __webpack_require__(39);
 Vue.component('example-component', __webpack_require__(42));
 Vue.component('users-component', __webpack_require__(45));
 Vue.component('pagination-component', __webpack_require__(48));
+Vue.component('message-component', __webpack_require__(56));
 
 var app = new Vue({
   el: '#app'
@@ -57307,7 +57308,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: ['asset', 'defaultImage'],
+    props: ['asset', 'defaultImage', 'messageUrl'],
     methods: {
         getUsers: function getUsers(page) {
             var _this = this;
@@ -57470,7 +57471,7 @@ var render = function() {
                           "a",
                           {
                             staticClass: "write-msg",
-                            attrs: { href: "message.html" }
+                            attrs: { href: _vm.messageUrl + "/" + user.id }
                           },
                           [_vm._v("Написать сообщение")]
                         )
@@ -57809,6 +57810,456 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(57)
+/* template */
+var __vue_template__ = __webpack_require__(58)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/MessageComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3f20c7be", Component.options)
+  } else {
+    hotAPI.reload("data-v-3f20c7be", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "user-message" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "controls" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-2" }, [
+              _c("a", { staticClass: "back", attrs: { href: "#" } }, [
+                _c("i", { staticClass: "fas fa-chevron-left" })
+              ]),
+              _vm._v(" "),
+              _c("a", { staticClass: "back sm-hide", attrs: { href: "#" } }, [
+                _vm._v("Назад")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-8" }, [
+              _c("div", { staticClass: "info" }, [
+                _c("a", { attrs: { href: "#" } }, [_vm._v("Имя Фамилия")]),
+                _c("br"),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    "\n                            был в сети сегодня в 1:29\n                        "
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-2" }, [
+              _c("div", { staticClass: "dop-info" }, [
+                _c("i", { staticClass: "fas fa-ellipsis-h more-msg-info" }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "sub-menu",
+                    attrs: { id: "show-more-info-msg" }
+                  },
+                  [
+                    _c("ul", [
+                      _c("li", [
+                        _c("a", { attrs: { href: "#" } }, [
+                          _vm._v("Очистить историю сообщений")
+                        ])
+                      ])
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("a", { staticClass: "img sm-hide", attrs: { href: "#" } }, [
+                  _c("img", { attrs: { src: "img/user1.jpg", alt: "" } })
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "msg-info" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-1 col-2" }, [
+              _c("div", { staticClass: "img-wrapp" }, [
+                _c("a", { attrs: { href: "#" } }, [
+                  _c("img", { attrs: { src: "img/user2.jpg", alt: "" } })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-7 col-7" }, [
+              _c("div", { staticClass: "msg" }, [
+                _vm._v(
+                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!\n                    "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4 col-3" }, [
+              _c("div", { staticClass: "date" }, [
+                _vm._v("\n                        22:45\n                    ")
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "msg-info" }, [
+          _c("div", { staticClass: "row justify-content-end" }, [
+            _c("div", { staticClass: "col-md-4 col-3" }, [
+              _c("div", { staticClass: "date text-right" }, [
+                _vm._v("\n                        13:19\n                    ")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-7 col-7" }, [
+              _c("div", { staticClass: "msg answer" }, [
+                _vm._v(
+                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores harum, nulla numquam delectus. Minus, commodi, pariatur. Eius cumque, ducimus aliquid iusto quidem earum, nisi iste. Recusandae quos magnam perferendis velit!\n                        Nulla culpa harum voluptates non itaque et provident impedit in totam quia, magni sit odit laboriosam autem, nobis reiciendis quod consectetur dolor rem aliquam praesentium modi, voluptatem eligendi magnam possimus.\n                    "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-1 col-2" }, [
+              _c("div", { staticClass: "img-wrapp" }, [
+                _c("a", { attrs: { href: "#" } }, [
+                  _c("img", { attrs: { src: "img/user1.jpg", alt: "" } })
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "msg-info" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-1 col-2" }, [
+              _c("div", { staticClass: "img-wrapp" }, [
+                _c("a", { attrs: { href: "#" } }, [
+                  _c("img", { attrs: { src: "img/user2.jpg", alt: "" } })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-7 col-7" }, [
+              _c("div", { staticClass: "msg" }, [
+                _vm._v(
+                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!\n                    "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4 col-3" }, [
+              _c("div", { staticClass: "date" }, [
+                _vm._v("\n                        22:45\n                    ")
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "msg-info" }, [
+          _c("div", { staticClass: "row justify-content-end" }, [
+            _c("div", { staticClass: "col-md-4 col-3" }, [
+              _c("div", { staticClass: "date text-right" }, [
+                _vm._v("\n                        13:19\n                    ")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-7 col-7" }, [
+              _c("div", { staticClass: "msg answer" }, [
+                _vm._v(
+                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores harum, nulla numquam delectus. Minus, commodi, pariatur. Eius cumque, ducimus aliquid iusto quidem earum, nisi iste. Recusandae quos magnam perferendis velit!\n                        Nulla culpa harum voluptates non itaque et provident impedit in totam quia, magni sit odit laboriosam autem, nobis reiciendis quod consectetur dolor rem aliquam praesentium modi, voluptatem eligendi magnam possimus.\n                    "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-1 col-2" }, [
+              _c("div", { staticClass: "img-wrapp" }, [
+                _c("a", { attrs: { href: "#" } }, [
+                  _c("img", { attrs: { src: "img/user1.jpg", alt: "" } })
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "msg-info" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-1 col-2" }, [
+              _c("div", { staticClass: "img-wrapp" }, [
+                _c("a", { attrs: { href: "#" } }, [
+                  _c("img", { attrs: { src: "img/user2.jpg", alt: "" } })
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-7 col-7" }, [
+              _c("div", { staticClass: "msg" }, [
+                _vm._v(
+                  "\n                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis doloribus aliquid, aliquam architecto dicta explicabo, iste eum doloremque libero, et voluptate commodi. Quas sit deserunt suscipit odit maiores aperiam esse!\n                    "
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-4 col-3" }, [
+              _c("div", { staticClass: "date" }, [
+                _vm._v("\n                        22:45\n                    ")
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "send-message" }, [
+          _c("div", { staticClass: "row justify-content-center" }, [
+            _c("div", { staticClass: "col-10" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("textarea", {
+                  staticClass: "form-control",
+                  attrs: {
+                    name: "",
+                    id: "",
+                    placeholder: "Напишите сообщение..."
+                  }
+                })
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3f20c7be", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
