@@ -16,7 +16,6 @@ Vue.use(require('vue-chat-scroll'));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('main-component', require('./components/MainComponent'));
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('users-component', require('./components/UsersComponent.vue'));
 Vue.component('pagination-component', require('./components/PaginationComponent.vue'));
@@ -26,38 +25,31 @@ const app = new Vue({
     el: '#app',
     data: function () {
         return {
-            users: [],
-            totalUsers: 0,
-            perPage: 3,
-            currentPage:1,
-            onlineUsers: []
+            onlineUsers: [],
+            allUsers:[]
         };
     },
     methods: {
-        getUsers: function (page) {
-            axios.post('/users',{page:page}).then(res => {
-                this.users = res.data.users;
-                this.users.forEach((user) => {
-                    this.isOnline(user);
+        listenForEverySession(user) {
+            Echo.private(`Chat.${user.session.id}`).listen("PrivateChatEvent", (e) => {
+                // if (!user.session.open) {
+                //     user.session.unreadCount++;
+                // }
+                alert("You have a message");
+            });
+        },
+        getAllUsers() {
+            axios.post('/users/all').then(res => {
+                this.allUsers = res.data.data;
+                this.allUsers.forEach(user => {
+                    alert(user.id);
+                    if (user.session) {
+                        alert("Listening for a session a " + user.session.id);
+                        this.listenForEverySession(user);
+                    }
                 });
-                this.totalUsers = res.data.totalUsers;
-
-                this.currentPage = page;
-
             });
-        },
-        isOnline: function (user) {
-            let matched = false;
-            this.onlineUsers.forEach((onlineUser) => {
-                if (onlineUser.id == user.id) {
-                    user.online = true;
-                    matched = true;
-                }
-            });
-            if (!matched) {
-                user.online = false;
-            }
-        },
+        }
     },
     created: function () {
         Echo.join('Chat')
@@ -65,18 +57,16 @@ const app = new Vue({
                 users.forEach((user) => {
                     this.onlineUsers.push(user.id);
                 });
-                this.$refs.user.checkOnline();
-                // this.getUsers(this.currentPage);
+                if (this.$refs.user != undefined) {
+                    this.$refs.user.checkOnline();
+                }
+                this.getAllUsers();
             })
             .joining((user) => {
                 this.onlineUsers.push(user.id);
-                this.$refs.user.checkOnline();
-
-                // this.users.forEach((user) => {
-                //     this.isOnline(user);
-                // });
-                // alert('joining');
-                // console.log(this.users);
+                if (this.$refs.user != undefined) {
+                    this.$refs.user.checkOnline();
+                }
             })
             .leaving((user) => {
                 this.onlineUsers.forEach((onlineUser,index) => {
@@ -84,12 +74,9 @@ const app = new Vue({
                         this.onlineUsers.splice(index, 1);
                     }
                 });
-                this.$refs.user.checkOnline();
-                // alert('leaving');
-                // console.log(this.users);
-                // this.users.forEach((user) => {
-                //     this.isOnline(user);
-                // });
+                if (this.$refs.user != undefined) {
+                    this.$refs.user.checkOnline();
+                }
             });
     }
 });

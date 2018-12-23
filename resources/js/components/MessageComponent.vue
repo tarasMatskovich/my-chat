@@ -109,7 +109,7 @@
                 if (this.message) {
                     this.pushToChats(this.message);
                     axios.post(`/send/${this.sessionId}`, {
-                        content : this.message,
+                        msg_content : this.message,
                         to_user : this.user2.id
                     }).then(res => {
                         this.messages[this.messages.length - 1].id = res.data;
@@ -119,7 +119,6 @@
             },
             getAllMessages() {
                 axios.post(`/session/${this.sessionId}/chats`).then(res => {
-                    console.log(res);
                     this.messages = res.data.data;
                 });
             }
@@ -127,6 +126,12 @@
         },
         created: function () {
             this.getAllMessages();
+            Echo.private(`Chat.${this.sessionId}`).listen("PrivateChatEvent", (e) => {
+                // if (this.friend.session.open) {
+                //     this.read();
+                // }
+                this.messages.push({message:e.content, type:1, send_at:'Just now'});
+            });
         }
     }
 </script>

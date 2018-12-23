@@ -26,6 +26,12 @@ class UserController extends Controller
         ];
     }
 
+    public function allUsers()
+    {
+        $users = UserResource::collection(User::all());
+        return $users;
+    }
+
     public function edit()
     {
         $user = User::find(auth()->id());

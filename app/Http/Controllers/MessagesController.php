@@ -39,7 +39,7 @@ class MessagesController extends Controller
 
     public function send(Session $session, Request $request)
     {
-        $message = $session->messages()->create(['content' => $request->content]);
+        $message = $session->messages()->create(['content' => $request->msg_content]);
         $chat = $message->createForSend($session->id, auth()->id());
         $message->createForReceive($session->id, $request->to_user);
         broadcast(new PrivateChatEvent($message->content, $chat));

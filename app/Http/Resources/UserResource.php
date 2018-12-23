@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Session;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -14,6 +15,9 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        $session = Session::where(['user1_id' => auth()->id(), 'user2_id' => $this->id])->orWhere(function($query) {
+            $query->where(['user2_id' => auth()->id(), 'user1_id' => $this->id]);
+        })->first();
         return [
             'id' => $this->id,
             'first_name' => $this->first_name,
@@ -25,6 +29,7 @@ class UserResource extends JsonResource
             'about' => $this->about,
             'img' => $this->img,
             'online' => false,
+            'session' => $session,
             'user_route' => route('user', ['id' => $this->id])
         ];
     }

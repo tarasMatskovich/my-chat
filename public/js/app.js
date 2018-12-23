@@ -14013,7 +14013,6 @@ Vue.use(__webpack_require__(42));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('main-component', __webpack_require__(43));
 Vue.component('example-component', __webpack_require__(46));
 Vue.component('users-component', __webpack_require__(49));
 Vue.component('pagination-component', __webpack_require__(52));
@@ -14023,38 +14022,32 @@ var app = new Vue({
     el: '#app',
     data: function data() {
         return {
-            users: [],
-            totalUsers: 0,
-            perPage: 3,
-            currentPage: 1,
-            onlineUsers: []
+            onlineUsers: [],
+            allUsers: []
         };
     },
     methods: {
-        getUsers: function getUsers(page) {
-            var _this = this;
-
-            axios.post('/users', { page: page }).then(function (res) {
-                _this.users = res.data.users;
-                _this.users.forEach(function (user) {
-                    _this.isOnline(user);
-                });
-                _this.totalUsers = res.data.totalUsers;
-
-                _this.currentPage = page;
+        listenForEverySession: function listenForEverySession(user) {
+            Echo.private('Chat.' + user.session.id).listen("PrivateChatEvent", function (e) {
+                // if (!user.session.open) {
+                //     user.session.unreadCount++;
+                // }
+                alert("You have a message");
             });
         },
-        isOnline: function isOnline(user) {
-            var matched = false;
-            this.onlineUsers.forEach(function (onlineUser) {
-                if (onlineUser.id == user.id) {
-                    user.online = true;
-                    matched = true;
-                }
+        getAllUsers: function getAllUsers() {
+            var _this = this;
+
+            axios.post('/users/all').then(function (res) {
+                _this.allUsers = res.data.data;
+                _this.allUsers.forEach(function (user) {
+                    alert(user.id);
+                    if (user.session) {
+                        alert("Listening for a session a " + user.session.id);
+                        _this.listenForEverySession(user);
+                    }
+                });
             });
-            if (!matched) {
-                user.online = false;
-            }
         }
     },
     created: function created() {
@@ -14064,29 +14057,24 @@ var app = new Vue({
             users.forEach(function (user) {
                 _this2.onlineUsers.push(user.id);
             });
-            _this2.$refs.user.checkOnline();
-            // this.getUsers(this.currentPage);
+            if (_this2.$refs.user != undefined) {
+                _this2.$refs.user.checkOnline();
+            }
+            _this2.getAllUsers();
         }).joining(function (user) {
             _this2.onlineUsers.push(user.id);
-            _this2.$refs.user.checkOnline();
-
-            // this.users.forEach((user) => {
-            //     this.isOnline(user);
-            // });
-            // alert('joining');
-            // console.log(this.users);
+            if (_this2.$refs.user != undefined) {
+                _this2.$refs.user.checkOnline();
+            }
         }).leaving(function (user) {
             _this2.onlineUsers.forEach(function (onlineUser, index) {
                 if (onlineUser == user.id) {
                     _this2.onlineUsers.splice(index, 1);
                 }
             });
-            _this2.$refs.user.checkOnline();
-            // alert('leaving');
-            // console.log(this.users);
-            // this.users.forEach((user) => {
-            //     this.isOnline(user);
-            // });
+            if (_this2.$refs.user != undefined) {
+                _this2.$refs.user.checkOnline();
+            }
         });
     }
 });
@@ -57227,94 +57215,9 @@ return VueChatScroll;
 
 
 /***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(44)
-/* template */
-var __vue_template__ = __webpack_require__(45)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/MainComponent.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3ee370e9", Component.options)
-  } else {
-    hotAPI.reload("data-v-3ee370e9", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 44 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {};
-    },
-
-    created: function created() {
-        alert("Main component was created successfully");
-    }
-});
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div")
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3ee370e9", module.exports)
-  }
-}
-
-/***/ }),
+/* 43 */,
+/* 44 */,
+/* 45 */,
 /* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -58183,7 +58086,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.message) {
                 this.pushToChats(this.message);
                 axios.post('/send/' + this.sessionId, {
-                    content: this.message,
+                    msg_content: this.message,
                     to_user: this.user2.id
                 }).then(function (res) {
                     _this.messages[_this.messages.length - 1].id = res.data;
@@ -58195,13 +58098,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             axios.post('/session/' + this.sessionId + '/chats').then(function (res) {
-                console.log(res);
                 _this2.messages = res.data.data;
             });
         }
     },
     created: function created() {
+        var _this3 = this;
+
         this.getAllMessages();
+        Echo.private('Chat.' + this.sessionId).listen("PrivateChatEvent", function (e) {
+            // if (this.friend.session.open) {
+            //     this.read();
+            // }
+            _this3.messages.push({ message: e.content, type: 1, send_at: 'Just now' });
+        });
     }
 });
 
