@@ -42,14 +42,16 @@
     export default {
         data() {
             return {
-                users: [],
                 totalUsers: 0,
                 perPage: 3,
                 currentPage:1,
-                onlineUsers: []
+                users: []
             };
         },
-        props: ['asset', 'defaultImage', 'messageUrl'],
+        mounted() {
+          this.$on('check', this.checkOnline());
+        },
+        props: ['asset', 'defaultImage', 'messageUrl', 'onlineUsers'],
         methods: {
             getUsers: function (page) {
                 axios.post('/users',{page:page}).then(res => {
@@ -75,7 +77,7 @@
             isOnline: function (user) {
                 let matched = false;
                 this.onlineUsers.forEach((onlineUser) => {
-                    if (onlineUser.id == user.id) {
+                    if (onlineUser == user.id) {
                         user.online = true;
                         matched = true;
                     }
@@ -84,66 +86,41 @@
                     user.online = false;
                 }
             },
+            checkOnline: function () {
+                this.users.forEach((user) => {
+                    this.isOnline(user);
+                });
+            }
         },
         created: function () {
-            Echo.join('Chat')
-                .here((users) => {
-                    users.forEach((user) => {
-                        this.onlineUsers.push({
-                            id:user.id
-                        });
-                    });
-                    this.getUsers(this.currentPage);
-                    // this.users.forEach((user) => {
-                    //     users.forEach((onlineUser) => {
-                    //         if (user.id == onlineUser) {
-                    //             user.online = true;
-                    //         }
-                    //     });
-                    // });
-
-
-
-                    // users.forEach((user) => {
-                    //     this.onlineUsers[user.id] = user.id;
-                    // });
-                })
-                .joining((user) => {
-                    this.onlineUsers.push({
-                        id:user.id
-                    });
-                    this.users.forEach((user) => {
-                        this.isOnline(user);
-                    });
-                    // this.onlineUsers[user.id] = user.id;
-
-                    // this.users.forEach((existingUser) => {
-                    //     if (existingUser.id == user.id) {
-                    //         existingUser.online = true;
-                    //     }
-                    // })
-                })
-                .leaving((user) => {
-                    this.onlineUsers.forEach((onlineUser,index) => {
-                        if (onlineUser.id == user.id) {
-                            this.onlineUsers.splice(index, 1);
-                        }
-                    });
-                    this.users.forEach((user) => {
-                        this.isOnline(user);
-                    });
-                    // this.users.forEach((existingUser) => {
-                    //     if (existingUser.id == user.id) {
-                    //         existingUser.online = false;
-                    //     }
-                    // })
-
-
-                    // let index = this.onlineUsers.indexOf(user.id);
-                    // if (index > -1) {
-                    //     this.onlineUsers.splice(index, 1);
-                    // }
-                });
+            this.getUsers(this.currentPage);
+            // Echo.join('Chat')
+            //     .here((users) => {
+            //         users.forEach((user) => {
+            //             this.onlineUsers.push({
+            //                 id:user.id
+            //             });
+            //         });
+            //         this.getUsers(this.currentPage);
+            //     })
+            //     .joining((user) => {
+            //         this.onlineUsers.push({
+            //             id:user.id
+            //         });
+            //         this.users.forEach((user) => {
+            //             this.isOnline(user);
+            //         });
+            //     })
+            //     .leaving((user) => {
+            //         this.onlineUsers.forEach((onlineUser,index) => {
+            //             if (onlineUser.id == user.id) {
+            //                 this.onlineUsers.splice(index, 1);
+            //             }
+            //         });
+            //         this.users.forEach((user) => {
+            //             this.isOnline(user);
+            //         });
+            //     });
         }
     }
 </script>

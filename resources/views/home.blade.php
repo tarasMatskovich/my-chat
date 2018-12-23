@@ -12,6 +12,8 @@
                     asset="<?=asset('img/users')?>"
                     default-image="<?=asset('img') . '/no-photo.png'?>"
                     message-url="<?=route('messages.message',['id'=>''])?>"
+                    :online-users="onlineUsers"
+                    ref="user"
             ></users-component>
         </div>
     </section>

@@ -78,9 +78,7 @@
                 </div>
             </section>
         @endif
-
         @yield('content')
-
         <footer>
             <div class="container">
                 <div class="footer-wrapp">
