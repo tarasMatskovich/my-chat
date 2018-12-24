@@ -26,6 +26,7 @@ class UserController extends Controller
         ];
     }
 
+    // TODO Remove this fucking sheet
     public function allUsers()
     {
         $users = UserResource::collection(User::all());

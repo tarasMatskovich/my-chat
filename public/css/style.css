@@ -508,6 +508,7 @@ footer ul li:last-child {
 
 
 
+
 @media screen and (max-width:576px), only screen and (max-device-width:576px) {
 	.sm-hide {
 		display: none!important;

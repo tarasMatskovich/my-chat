@@ -20,31 +20,58 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 Vue.component('users-component', require('./components/UsersComponent.vue'));
 Vue.component('pagination-component', require('./components/PaginationComponent.vue'));
 Vue.component('message-component', require('./components/MessageComponent'));
+Vue.component('notification-component', require('./components/NotificationComponent.vue'));
 
 const app = new Vue({
     el: '#app',
     data: function () {
         return {
             onlineUsers: [],
-            allUsers:[]
+            allUsers:[],
+            showNotification:false,
+            message:null
         };
     },
     methods: {
+        playNotificationSound()
+        {
+            var promise = document.getElementById("notification-sound").play();
+            if (promise !== undefined) {
+                promise.then(_ => {
+                    // Autoplay started!
+                }).catch(error => {
+                    // Autoplay was prevented.
+                    // Show a "Play" button so that user can start playback.
+                });
+            }
+        },
+        hideNotification() {
+            this.showNotification = false;
+            this.message = null;
+            alert("Done");
+        },
+        notifyAboutMessage(e) {
+            this.showNotification = true;
+            this.message = e;
+            this.playNotificationSound();
+            var self = this;
+            setTimeout(() => {
+                self.showNotification = false;
+            },5000);
+        },
         listenForEverySession(user) {
             Echo.private(`Chat.${user.session.id}`).listen("PrivateChatEvent", (e) => {
                 // if (!user.session.open) {
                 //     user.session.unreadCount++;
                 // }
-                alert("You have a message");
+                this.notifyAboutMessage(e);
             });
         },
         getAllUsers() {
             axios.post('/users/all').then(res => {
                 this.allUsers = res.data.data;
                 this.allUsers.forEach(user => {
-                    alert(user.id);
                     if (user.session) {
-                        alert("Listening for a session a " + user.session.id);
                         this.listenForEverySession(user);
                     }
                 });

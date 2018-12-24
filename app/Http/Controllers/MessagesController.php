@@ -42,7 +42,7 @@ class MessagesController extends Controller
         $message = $session->messages()->create(['content' => $request->msg_content]);
         $chat = $message->createForSend($session->id, auth()->id());
         $message->createForReceive($session->id, $request->to_user);
-        broadcast(new PrivateChatEvent($message->content, $chat));
+        broadcast(new PrivateChatEvent($message->content, $chat, $chat->user));
         return response($chat->id, 200);
     }
 }

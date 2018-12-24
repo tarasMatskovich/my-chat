@@ -14,4 +14,9 @@ class Chat extends Model
     {
         return $this->belongsTo(Message::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\User::class);
+    }
 }

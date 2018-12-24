@@ -97,11 +97,30 @@
         },
         props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId'],
         methods: {
+            getDate() {
+                var date = new Date();
+                var seconds = date.getSeconds();
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                if (seconds < 10) {
+                    seconds = "0" + seconds;
+                }
+                if(minutes < 10) {
+                    minutes = "0" + minutes;
+                }
+                if(hours < 10) {
+                    hours = "0" + hours;
+                }
+                var dateTimeString = hours + ":" + minutes + ":" + seconds;
+                return dateTimeString;
+            },
             pushToChats(message) {
+
+                var dateTimeString = this.getDate();
                 this.messages.push({
                     message:message,
                     type:0,
-                    send_at:'Just now',
+                    send_at:dateTimeString,
                     read_at:null
                 });
             },
@@ -130,7 +149,8 @@
                 // if (this.friend.session.open) {
                 //     this.read();
                 // }
-                this.messages.push({message:e.content, type:1, send_at:'Just now'});
+                var date = this.getDate();
+                this.messages.push({message:e.content, type:1, send_at:date});
             });
         }
     }

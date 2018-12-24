@@ -109,6 +109,10 @@
                 </div>
             </div>
         </footer>
+        <notification-component :show="showNotification" :message="message" v-if="showNotification" asset="<?=asset('img/users')?>"></notification-component>
+        <audio src="{{asset('sounds/sound.mp3')}}" id="notification-sound" muted>
+            Your browser does not support the <code>audio</code> element.
+        </audio>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
