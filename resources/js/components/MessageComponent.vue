@@ -13,7 +13,7 @@
                         <div class="info">
                             <a href="#">{{user2.first_name}} {{user2.last_name}}</a><br>
                             <p>
-                                был в сети сегодня в 1:29
+                                {{getStatus()}}
                             </p>
                         </div>
                     </div>
@@ -95,8 +95,15 @@
                 messages:[]
             }
         },
-        props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId'],
+        props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers'],
         methods: {
+            getStatus() {
+                if (this.onlineUsers.indexOf(this.user2.id) != -1) {
+                    return "В сети";
+                } else {
+                    return "Нет в сети";
+                }
+            },
             getDate() {
                 var date = new Date();
                 var seconds = date.getSeconds();

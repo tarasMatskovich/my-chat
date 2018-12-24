@@ -14095,6 +14095,7 @@ var app = new Vue({
                 _this3.$refs.user.checkOnline();
             }
         }).leaving(function (user) {
+            alert("leaving");
             _this3.onlineUsers.forEach(function (onlineUser, index) {
                 if (onlineUser == user.id) {
                     _this3.onlineUsers.splice(index, 1);
@@ -58095,8 +58096,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId'],
+    props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers'],
     methods: {
+        getStatus: function getStatus() {
+            if (this.onlineUsers.indexOf(this.user2.id) != -1) {
+                return "В сети";
+            } else {
+                return "Нет в сети";
+            }
+        },
         getDate: function getDate() {
             var date = new Date();
             var seconds = date.getSeconds();
@@ -58187,7 +58195,9 @@ var render = function() {
               _vm._v(" "),
               _c("p", [
                 _vm._v(
-                  "\n                            был в сети сегодня в 1:29\n                        "
+                  "\n                            " +
+                    _vm._s(_vm.getStatus()) +
+                    "\n                        "
                 )
               ])
             ])

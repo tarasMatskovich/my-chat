@@ -96,6 +96,7 @@ const app = new Vue({
                 }
             })
             .leaving((user) => {
+                alert("leaving");
                 this.onlineUsers.forEach((onlineUser,index) => {
                     if (onlineUser == user.id) {
                         this.onlineUsers.splice(index, 1);
