@@ -29,10 +29,59 @@ const app = new Vue({
             onlineUsers: [],
             allUsers:[],
             showNotification:false,
-            message:null
+            message:null,
+            allOnlineUsers:[]
         };
     },
     methods: {
+        findFullUser(user) {
+            var neededUser = null;
+            this.allUsers.forEach((fullUser) => {
+                if (fullUser.id == user.id)
+                    neededUser = fullUser;
+            });
+            return neededUser;
+        },
+        addUserToOnline(user) {
+            user.online = true;
+            this.allOnlineUsers.push(user);
+            if (this.$refs.user != undefined) {
+                this.$refs.user.getOnlineUsers(this.$refs.user.currentOnlinePage);
+            }
+        },
+        deleteUserFromOnline(user) {
+            this.allOnlineUsers.forEach((onlineUser,index) => {
+                if (onlineUser.id == user.id) {
+                    this.allOnlineUsers.splice(index, 1);
+                }
+            });
+            if (this.$refs.user != undefined) {
+                this.$refs.user.getOnlineUsers(this.$refs.user.currentOnlinePage);
+            }
+        },
+        isOnline: function (user) {
+            let matched = false;
+            this.onlineUsers.forEach((onlineUser) => {
+                if (onlineUser == user.id) {
+                    user.online = true;
+                    matched = true;
+                }
+            });
+            if (!matched) {
+                user.online = false;
+            }
+            return matched;
+        },
+        createOnlineUsers() {
+            this.allUsers.forEach((user) => {
+                if (this.isOnline(user)) {
+                    this.allOnlineUsers.push(user);
+                }
+            });
+            if (this.$refs.user != undefined) {
+                this.$refs.user.getOnlineUsers(1);
+            }
+        },
         playNotificationSound()
         {
             var promise = document.getElementById("notification-sound").play();
@@ -75,6 +124,7 @@ const app = new Vue({
                         this.listenForEverySession(user);
                     }
                 });
+                this.createOnlineUsers();
             });
         }
     },
@@ -94,9 +144,12 @@ const app = new Vue({
                 if (this.$refs.user != undefined) {
                     this.$refs.user.checkOnline();
                 }
+                var fullUser = this.findFullUser(user);
+                if (fullUser) {
+                    this.addUserToOnline(fullUser);
+                }
             })
             .leaving((user) => {
-                alert("leaving");
                 this.onlineUsers.forEach((onlineUser,index) => {
                     if (onlineUser == user.id) {
                         this.onlineUsers.splice(index, 1);
@@ -105,6 +158,7 @@ const app = new Vue({
                 if (this.$refs.user != undefined) {
                     this.$refs.user.checkOnline();
                 }
+                this.deleteUserFromOnline(user);
             });
     }
 });
