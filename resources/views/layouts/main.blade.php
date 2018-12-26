@@ -78,7 +78,9 @@
                 </div>
             </section>
         @endif
-        @yield('content')
+        <div class="main-content">
+            @yield('content')
+        </div>
         <footer>
             <div class="container">
                 <div class="footer-wrapp">
@@ -122,6 +124,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/plugins/CSSPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/easing/EasePack.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenLite.min.js"></script>
+    <script src="{{asset('js/common.js')}}"></script>
     @stack('scripts')
 </body>
 </html>
