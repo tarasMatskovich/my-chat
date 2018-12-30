@@ -14328,6 +14328,7 @@ Vue.component('users-component', __webpack_require__(48));
 Vue.component('pagination-component', __webpack_require__(54));
 Vue.component('message-component', __webpack_require__(57));
 Vue.component('notification-component', __webpack_require__(60));
+Vue.component('dialogs-component', __webpack_require__(71));
 
 var app = new Vue({
     el: '#app',
@@ -58772,10 +58773,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -59401,6 +59398,276 @@ exports.push([module.i, "\n.read-box i{\n    color: #9BD070;\n    -webkit-transf
 
 // exports
 
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(72)
+/* template */
+var __vue_template__ = __webpack_require__(73)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/DialogsComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c8c66b06", Component.options)
+  } else {
+    hotAPI.reload("data-v-c8c66b06", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            dialogs: []
+        };
+    },
+
+    methods: {
+        getDialogs: function getDialogs() {
+            var _this = this;
+
+            axios.post("/sessions").then(function (res) {
+                _this.dialogs = res.data.data;
+            });
+        },
+        renderImage: function renderImage(user) {
+            if (user.img) {
+                return this.asset + '/' + user.img;
+            }
+            return this.defaultImage;
+        },
+        renderUserRoute: function renderUserRoute(user) {
+            return this.userRoute + "/" + user.id;
+        },
+        renderMessageRoute: function renderMessageRoute(user) {
+            return this.messageRoute + "/" + user.id;
+        }
+    },
+    props: ['userId', 'asset', 'defaultImage', 'userRoute', 'messageRoute'],
+    created: function created() {
+        this.getDialogs();
+    }
+});
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { staticClass: "all-messages" }, [
+    _c(
+      "div",
+      { staticClass: "container" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._l(_vm.dialogs, function(dialog) {
+          return dialog.user
+            ? _c("div", { staticClass: "message d-flex" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-3" }, [
+                    _c("div", { staticClass: "img-wrapp" }, [
+                      _c(
+                        "a",
+                        { attrs: { href: _vm.renderUserRoute(dialog.user) } },
+                        [
+                          _c("img", {
+                            staticClass: "image-error",
+                            attrs: {
+                              src: _vm.renderImage(dialog.user),
+                              onerror: "this.className +=' invalid'",
+                              alt: ""
+                            }
+                          })
+                        ]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-9" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "first-name",
+                        attrs: {
+                          href: _vm.renderUserRoute(dialog.last_message.user)
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(dialog.user.first_name) +
+                            " " +
+                            _vm._s(dialog.user.last_name)
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "msg-info align-self-end" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-2" }, [
+                          _c("div", { staticClass: "img-inner-wrapp" }, [
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href: _vm.renderUserRoute(
+                                    dialog.last_message.user
+                                  )
+                                }
+                              },
+                              [
+                                _c("img", {
+                                  staticClass: "image-error",
+                                  attrs: {
+                                    src: _vm.renderImage(
+                                      dialog.last_message.user
+                                    ),
+                                    onerror: "this.className +=' invalid'",
+                                    alt: ""
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-10" }, [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "msg-text",
+                              attrs: {
+                                href: _vm.renderMessageRoute(dialog.user)
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(
+                                    dialog.last_message.message.substring(0, 50)
+                                  ) +
+                                  "\n                                "
+                              )
+                            ]
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("hr")
+                  ])
+                ])
+              ])
+            : _vm._e()
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col" }, [_c("h2", [_vm._v("Диалоги")])])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c8c66b06", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

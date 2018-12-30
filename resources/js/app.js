@@ -21,6 +21,7 @@ Vue.component('users-component', require('./components/UsersComponent.vue'));
 Vue.component('pagination-component', require('./components/PaginationComponent.vue'));
 Vue.component('message-component', require('./components/MessageComponent'));
 Vue.component('notification-component', require('./components/NotificationComponent.vue'));
+Vue.component('dialogs-component', require('./components/DialogsComponent'));
 
 const app = new Vue({
     el: '#app',

@@ -15,7 +15,7 @@ class MessagesController extends Controller
 {
     public function index()
     {
-
+        return view("messages");
     }
 
     public function read(Session $session)

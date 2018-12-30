@@ -48,10 +48,6 @@
                                 </a>
                             </div>
                             <div class="date text-right" v-else>
-                                <!--<span class="read-box">-->
-                                    <!--<i class="fas fa-angle-double-left left" v-if="message.read_at"></i>-->
-                                    <!--<i class="fas fa-angle-left left" v-else></i>-->
-                                <!--</span>-->
                                 {{message.send_at}}
                             </div>
                         </div>

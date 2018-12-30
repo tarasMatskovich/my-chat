@@ -21,10 +21,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/users/all', [\App\Http\Controllers\UserController::class, 'allUsers'])->name('users.all');
 
     Route::get('/messages/{id}', [\App\Http\Controllers\MessagesController::class, 'message'])->name('messages.message');
+    Route::get('/messages', [\App\Http\Controllers\MessagesController::class, 'index'])->name('messages.messages');
 
     Route::post('/session/{session}/chats', [\App\Http\Controllers\MessagesController::class, 'chats'])->name('messages.chats');
     Route::post('/session/{session}/read', [\App\Http\Controllers\MessagesController::class, 'read'])->name('messages.read');
     Route::post('/send/{session}', [\App\Http\Controllers\MessagesController::class, 'send'])->name('messages.send');
+
+    Route::post("/sessions", [\App\Http\Controllers\SessionController::class, 'index'])->name('sessions');
 });
 
 Auth::routes();
