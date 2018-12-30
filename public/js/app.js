@@ -58776,8 +58776,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -58791,6 +58789,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers'],
     methods: {
+        renderMessage: function renderMessage(message) {
+            var words = message.split(" ");
+            var string = "";
+            words.forEach(function (word) {
+                if (word.length > 80) {
+                    var len = word.length;
+                    var count = len / 80;
+                    count = Math.ceil(count);
+                    var i;
+                    var subStr = "";
+                    for (i = 0; i < count; i++) {
+                        subStr += word.substring(i * 80, i * 80 + 80);
+                        subStr += "<br/>";
+                    }
+                    string += subStr;
+                    string += " ";
+                } else {
+                    string += word;
+                    string += " ";
+                }
+            });
+
+            return string;
+        },
         getStatus: function getStatus() {
             if (this.onlineUsers.indexOf(this.user2.id) != -1) {
                 return "В сети";
@@ -58970,22 +58992,15 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-7 col-7" }, [
-                  _c(
-                    "div",
-                    {
-                      class: {
-                        msg: message.type == 0,
-                        "msg answer": message.type == 1
-                      }
+                  _c("div", {
+                    class: {
+                      msg: message.type == 0,
+                      "msg answer": message.type == 1
                     },
-                    [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(message.message) +
-                          "\n                        "
-                      )
-                    ]
-                  )
+                    domProps: {
+                      innerHTML: _vm._s(_vm.renderMessage(message.message))
+                    }
+                  })
                 ]),
                 _vm._v(" "),
                 _c(
@@ -59267,6 +59282,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['show', 'message', 'asset'],
+    methods: {
+        goToMessage: function goToMessage() {
+            window.location.href = window.location.origin + '/messages/' + this.message.user.id;
+        }
+    },
     created: function created() {}
 });
 
@@ -59278,39 +59298,50 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "notification" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-4" }, [
-        _c("img", {
-          attrs: { src: this.asset + "/" + this.message.user.img, alt: "" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-8" }, [
-        _c("div", { staticClass: "body" }, [
-          _c("h5", [_vm._v("У вас новое сообщение")]),
-          _vm._v(" "),
-          _c("p", { staticClass: "name" }, [
-            _vm._v(
-              "\n                    " +
-                _vm._s(this.message.user.first_name) +
-                " " +
-                _vm._s(this.message.user.last_name) +
-                "\n                "
-            )
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              "\n                    " +
-                _vm._s(this.message.content) +
-                "\n                "
-            )
+  return _c(
+    "div",
+    {
+      staticClass: "notification",
+      on: {
+        click: function($event) {
+          _vm.goToMessage()
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-4" }, [
+          _c("img", {
+            attrs: { src: this.asset + "/" + this.message.user.img, alt: "" }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-8" }, [
+          _c("div", { staticClass: "body" }, [
+            _c("h5", [_vm._v("У вас новое сообщение")]),
+            _vm._v(" "),
+            _c("p", { staticClass: "name" }, [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(this.message.user.first_name) +
+                  " " +
+                  _vm._s(this.message.user.last_name) +
+                  "\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(this.message.content.substring(0, 27)) +
+                  "\n                "
+              )
+            ])
           ])
         ])
       ])
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -1,5 +1,5 @@
 <template>
-    <div class="notification">
+    <div class="notification" @click="goToMessage()">
         <div class="row">
             <div class="col-4">
                 <img :src="this.asset + '/' + this.message.user.img" alt="">
@@ -11,7 +11,7 @@
                         {{this.message.user.first_name}} {{this.message.user.last_name}}
                     </p>
                     <p>
-                        {{this.message.content}}
+                        {{this.message.content.substring(0,27)}}
                     </p>
                 </div>
             </div>
@@ -43,6 +43,11 @@
 <script>
     export default {
         props: ['show', 'message', 'asset'],
+        methods: {
+            goToMessage() {
+                window.location.href = window.location.origin + '/messages/' + this.message.user.id;
+            }
+        },
         created: function () {
 
         }

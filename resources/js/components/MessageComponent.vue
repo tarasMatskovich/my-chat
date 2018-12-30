@@ -56,9 +56,7 @@
                             </div>
                         </div>
                         <div class="col-md-7 col-7">
-                            <div :class="{'msg':message.type == 0, 'msg answer':message.type == 1}">
-                                {{message.message}}
-                            </div>
+                            <div :class="{'msg':message.type == 0, 'msg answer':message.type == 1}" v-html="renderMessage(message.message)"></div>
                         </div>
                         <div :class="{'col-md-4 col-3':message.type == 0, 'col-md-1 col-2':message.type == 1}">
                             <div class="date" v-if="message.type == 0">
@@ -119,6 +117,30 @@
         },
         props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers'],
         methods: {
+            renderMessage(message) {
+              var words = message.split(" ");
+              var string = "";
+              words.forEach((word) => {
+                  if (word.length > 80) {
+                      var len = word.length;
+                      var count = len / 80;
+                      count = Math.ceil(count);
+                      var i;
+                      var subStr = "";
+                      for(i = 0; i < count; i++) {
+                          subStr += word.substring(i*80,i*80+80);
+                          subStr += "<br/>";
+                      }
+                      string += subStr;
+                      string += " ";
+                  } else {
+                      string += word;
+                      string += " ";
+                  }
+              });
+
+              return string;
+            },
             getStatus() {
                 if (this.onlineUsers.indexOf(this.user2.id) != -1) {
                     return "В сети";
