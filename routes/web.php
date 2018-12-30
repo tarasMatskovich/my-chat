@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/messages/{id}', [\App\Http\Controllers\MessagesController::class, 'message'])->name('messages.message');
 
     Route::post('/session/{session}/chats', [\App\Http\Controllers\MessagesController::class, 'chats'])->name('messages.chats');
+    Route::post('/session/{session}/read', [\App\Http\Controllers\MessagesController::class, 'read'])->name('messages.read');
     Route::post('/send/{session}', [\App\Http\Controllers\MessagesController::class, 'send'])->name('messages.send');
 });
 

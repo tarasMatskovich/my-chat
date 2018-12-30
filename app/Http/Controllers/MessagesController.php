@@ -8,12 +8,23 @@ use App\Http\Resources\MessageResource;
 use App\Models\Session;
 use App\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Events\MsgReadEvent;
 
 class MessagesController extends Controller
 {
     public function index()
     {
 
+    }
+
+    public function read(Session $session)
+    {
+        $chats = $session->chats()->where('read_at', null)->where('type', 0)->where('user_id', '!=', auth()->id())->get();
+        foreach ($chats as $chat) {
+            $chat->update(['read_at' => Carbon::now()]);
+            broadcast(new MsgReadEvent(new MessageResource($chat), $chat->session_id));
+        }
     }
 
     public function message($id)

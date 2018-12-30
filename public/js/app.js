@@ -58617,6 +58617,10 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(69)
+}
 var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(58)
@@ -58625,7 +58629,7 @@ var __vue_template__ = __webpack_require__(59)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -58665,6 +58669,28 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -58819,18 +58845,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/session/' + this.sessionId + '/chats').then(function (res) {
                 _this2.messages = res.data.data;
             });
+        },
+        read: function read() {
+            axios.post('/session/' + this.sessionId + '/read');
         }
     },
     created: function created() {
         var _this3 = this;
 
+        this.read();
         this.getAllMessages();
         Echo.private('Chat.' + this.sessionId).listen("PrivateChatEvent", function (e) {
-            // if (this.friend.session.open) {
-            //     this.read();
-            // }
+            _this3.read();
             var date = _this3.getDate();
             _this3.messages.push({ message: e.content, type: 1, send_at: date });
+        });
+
+        Echo.private('Chat.' + this.sessionId).listen("MsgReadEvent", function (e) {
+            _this3.messages.forEach(function (message) {
+                if (message.id == e.chat.id) {
+                    message.read_at = e.chat.read_at.date;
+                }
+            });
         });
     }
 });
@@ -58966,8 +59002,17 @@ var render = function() {
                           _vm._v(
                             "\n                            " +
                               _vm._s(message.send_at) +
-                              "\n                        "
-                          )
+                              "\n                            "
+                          ),
+                          _c("span", { staticClass: "read-box" }, [
+                            message.read_at
+                              ? _c("i", {
+                                  staticClass: "fas fa-angle-double-left right"
+                                })
+                              : _c("i", {
+                                  staticClass: "fas fa-angle-left right"
+                                })
+                          ])
                         ])
                       : _c("div", { staticClass: "img-wrapp" }, [
                           _c("a", { attrs: { href: "#" } }, [
@@ -59282,6 +59327,49 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(70);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(13)("675d29b1", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3f20c7be\",\"scoped\":false,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MessageComponent.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3f20c7be\",\"scoped\":false,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MessageComponent.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(12)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.read-box i{\n    color: #9BD070;\n    -webkit-transform: rotate(-90deg);\n            transform: rotate(-90deg);\n    font-size: 20px;\n}\n.read-box i.left {\n    margin-right: 5px;\n}\n.read-box i.right {\n    margin-left: 5px;\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

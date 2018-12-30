@@ -48,6 +48,10 @@
                                 </a>
                             </div>
                             <div class="date text-right" v-else>
+                                <!--<span class="read-box">-->
+                                    <!--<i class="fas fa-angle-double-left left" v-if="message.read_at"></i>-->
+                                    <!--<i class="fas fa-angle-left left" v-else></i>-->
+                                <!--</span>-->
                                 {{message.send_at}}
                             </div>
                         </div>
@@ -59,6 +63,10 @@
                         <div :class="{'col-md-4 col-3':message.type == 0, 'col-md-1 col-2':message.type == 1}">
                             <div class="date" v-if="message.type == 0">
                                 {{message.send_at}}
+                                <span class="read-box">
+                                    <i class="fas fa-angle-double-left right" v-if="message.read_at"></i>
+                                    <i class="fas fa-angle-left right" v-else></i>
+                                </span>
                             </div>
                             <div class="img-wrapp" v-else>
                                 <a href="#">
@@ -84,6 +92,20 @@
         </div>
     </section>
 </template>
+
+<style>
+    .read-box i{
+        color: #9BD070;
+        transform: rotate(-90deg);
+        font-size: 20px;
+    }
+    .read-box i.left {
+        margin-right: 5px;
+    }
+    .read-box i.right {
+        margin-left: 5px;
+    }
+</style>
 
 <script>
     export default {
@@ -147,17 +169,27 @@
                 axios.post(`/session/${this.sessionId}/chats`).then(res => {
                     this.messages = res.data.data;
                 });
+            },
+            read() {
+                axios.post(`/session/${this.sessionId}/read`);
             }
 
         },
         created: function () {
+            this.read();
             this.getAllMessages();
             Echo.private(`Chat.${this.sessionId}`).listen("PrivateChatEvent", (e) => {
-                // if (this.friend.session.open) {
-                //     this.read();
-                // }
+                this.read();
                 var date = this.getDate();
                 this.messages.push({message:e.content, type:1, send_at:date});
+            });
+
+            Echo.private(`Chat.${this.sessionId}`).listen("MsgReadEvent", (e) => {
+                this.messages.forEach(message => {
+                    if (message.id == e.chat.id) {
+                        message.read_at = e.chat.read_at.date;
+                    }
+                });
             });
         }
     }
