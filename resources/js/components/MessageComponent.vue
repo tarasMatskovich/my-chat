@@ -4,14 +4,14 @@
             <div class="controls">
                 <div class="row">
                     <div class="col-2">
-                        <a href="#" class="back">
+                        <a :href="backUrl" class="back">
                             <i class="fas fa-chevron-left"></i>
                         </a>
-                        <a href="#" class="back sm-hide">Назад</a>
+                        <a :href="backUrl" class="back sm-hide">Назад</a>
                     </div>
                     <div class="col-8">
                         <div class="info">
-                            <a href="#">{{user2.first_name}} {{user2.last_name}}</a><br>
+                            <a :href="getUserRoute(user2.id)">{{user2.first_name}} {{user2.last_name}}</a><br>
                             <p>
                                 {{getStatus()}}
                             </p>
@@ -24,14 +24,14 @@
                             <div class="sub-menu" id="show-more-info-msg">
                                 <ul>
                                     <li>
-                                        <a href="#">Очистить историю сообщений</a>
+                                        <a href="#" @click.prevent="clear">Очистить историю сообщений</a>
                                     </li>
                                     <li>
-                                        <a href="#">Заблокировать пользователя</a>
+                                        <a href="#" @click.prevent="block">Заблокировать пользователя</a>
                                     </li>
                                 </ul>
                             </div>
-                            <a href="#" class="img sm-hide">
+                            <a :href="getUserRoute(user2.id)" class="img sm-hide">
                                 <img :src="asset + '/' + user2.img" alt="">
                             </a>
                         </div>
@@ -43,7 +43,7 @@
                     <div :class="{'row':message.type == 0, 'row justify-content-end':message.type == 1}">
                         <div :class="{'col-md-1 col-2':message.type == 0, 'col-md-4 col-3':message.type == 1}">
                             <div class="img-wrapp" v-if="message.type == 0">
-                                <a href="#">
+                                <a :href="getUserRoute(user1.id)">
                                     <img :src="asset + '/' + user1.img" alt="">
                                 </a>
                             </div>
@@ -63,7 +63,7 @@
                                 </span>
                             </div>
                             <div class="img-wrapp" v-else>
-                                <a href="#">
+                                <a :href="getUserRoute(user2.id)">
                                     <img :src="asset + '/' + user2.img" alt="">
                                 </a>
                             </div>
@@ -111,8 +111,19 @@
                 messages:[]
             }
         },
-        props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers'],
+        props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers', 'backUrl'],
         methods: {
+            getUserRoute(id) {
+                return "/user/" + id;
+            },
+            clear() {
+                axios.post(`/session/${this.sessionId}/clear`).then(res => {
+                    this.messages = [];
+                });
+            },
+            block() {
+                alert("block");
+            },
             renderMessage(message) {
               var words = message.split(" ");
               var string = "";

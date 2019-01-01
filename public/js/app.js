@@ -58841,8 +58841,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
 
-    props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers'],
+    props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers', 'backUrl'],
     methods: {
+        getUserRoute: function getUserRoute(id) {
+            return "/user/" + id;
+        },
+        clear: function clear() {
+            var _this = this;
+
+            axios.post('/session/' + this.sessionId + '/clear').then(function (res) {
+                _this.messages = [];
+            });
+        },
+        block: function block() {
+            alert("block");
+        },
         renderMessage: function renderMessage(message) {
             var words = message.split(" ");
             var string = "";
@@ -58902,7 +58915,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         send: function send() {
-            var _this = this;
+            var _this2 = this;
 
             if (this.message) {
                 this.pushToChats(this.message);
@@ -58910,16 +58923,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     msg_content: this.message,
                     to_user: this.user2.id
                 }).then(function (res) {
-                    _this.messages[_this.messages.length - 1].id = res.data;
+                    _this2.messages[_this2.messages.length - 1].id = res.data;
                 });
                 this.message = null;
             }
         },
         getAllMessages: function getAllMessages() {
-            var _this2 = this;
+            var _this3 = this;
 
             axios.post('/session/' + this.sessionId + '/chats').then(function (res) {
-                _this2.messages = res.data.data;
+                _this3.messages = res.data.data;
             });
         },
         read: function read() {
@@ -58927,18 +58940,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
-        var _this3 = this;
+        var _this4 = this;
 
         this.read();
         this.getAllMessages();
         Echo.private('Chat.' + this.sessionId).listen("PrivateChatEvent", function (e) {
-            _this3.read();
-            var date = _this3.getDate();
-            _this3.messages.push({ message: e.content, type: 1, send_at: date });
+            _this4.read();
+            var date = _this4.getDate();
+            _this4.messages.push({ message: e.content, type: 1, send_at: date });
         });
 
         Echo.private('Chat.' + this.sessionId).listen("MsgReadEvent", function (e) {
-            _this3.messages.forEach(function (message) {
+            _this4.messages.forEach(function (message) {
                 if (message.id == e.chat.id) {
                     message.read_at = e.chat.read_at.date;
                 }
@@ -58959,11 +58972,21 @@ var render = function() {
     _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "controls" }, [
         _c("div", { staticClass: "row" }, [
-          _vm._m(0),
+          _c("div", { staticClass: "col-2" }, [
+            _c("a", { staticClass: "back", attrs: { href: _vm.backUrl } }, [
+              _c("i", { staticClass: "fas fa-chevron-left" })
+            ]),
+            _vm._v(" "),
+            _c(
+              "a",
+              { staticClass: "back sm-hide", attrs: { href: _vm.backUrl } },
+              [_vm._v("Назад")]
+            )
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-8" }, [
             _c("div", { staticClass: "info" }, [
-              _c("a", { attrs: { href: "#" } }, [
+              _c("a", { attrs: { href: _vm.getUserRoute(_vm.user2.id) } }, [
                 _vm._v(
                   _vm._s(_vm.user2.first_name) +
                     " " +
@@ -58986,13 +59009,61 @@ var render = function() {
             _c("div", { staticClass: "dop-info" }, [
               _c("i", { staticClass: "fas fa-ellipsis-h more-msg-info" }),
               _vm._v(" "),
-              _vm._m(1),
+              _c(
+                "div",
+                {
+                  staticClass: "sub-menu",
+                  attrs: { id: "show-more-info-msg" }
+                },
+                [
+                  _c("ul", [
+                    _c("li", [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.clear($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Очистить историю сообщений")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.block($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Заблокировать пользователя")]
+                      )
+                    ])
+                  ])
+                ]
+              ),
               _vm._v(" "),
-              _c("a", { staticClass: "img sm-hide", attrs: { href: "#" } }, [
-                _c("img", {
-                  attrs: { src: _vm.asset + "/" + _vm.user2.img, alt: "" }
-                })
-              ])
+              _c(
+                "a",
+                {
+                  staticClass: "img sm-hide",
+                  attrs: { href: _vm.getUserRoute(_vm.user2.id) }
+                },
+                [
+                  _c("img", {
+                    attrs: { src: _vm.asset + "/" + _vm.user2.img, alt: "" }
+                  })
+                ]
+              )
             ])
           ])
         ])
@@ -59026,14 +59097,18 @@ var render = function() {
                   [
                     message.type == 0
                       ? _c("div", { staticClass: "img-wrapp" }, [
-                          _c("a", { attrs: { href: "#" } }, [
-                            _c("img", {
-                              attrs: {
-                                src: _vm.asset + "/" + _vm.user1.img,
-                                alt: ""
-                              }
-                            })
-                          ])
+                          _c(
+                            "a",
+                            { attrs: { href: _vm.getUserRoute(_vm.user1.id) } },
+                            [
+                              _c("img", {
+                                attrs: {
+                                  src: _vm.asset + "/" + _vm.user1.img,
+                                  alt: ""
+                                }
+                              })
+                            ]
+                          )
                         ])
                       : _c("div", { staticClass: "date text-right" }, [
                           _vm._v(
@@ -59084,14 +59159,18 @@ var render = function() {
                           ])
                         ])
                       : _c("div", { staticClass: "img-wrapp" }, [
-                          _c("a", { attrs: { href: "#" } }, [
-                            _c("img", {
-                              attrs: {
-                                src: _vm.asset + "/" + _vm.user2.img,
-                                alt: ""
-                              }
-                            })
-                          ])
+                          _c(
+                            "a",
+                            { attrs: { href: _vm.getUserRoute(_vm.user2.id) } },
+                            [
+                              _c("img", {
+                                attrs: {
+                                  src: _vm.asset + "/" + _vm.user2.img,
+                                  alt: ""
+                                }
+                              })
+                            ]
+                          )
                         ])
                   ]
                 )
@@ -59145,46 +59224,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-2" }, [
-      _c("a", { staticClass: "back", attrs: { href: "#" } }, [
-        _c("i", { staticClass: "fas fa-chevron-left" })
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "back sm-hide", attrs: { href: "#" } }, [
-        _vm._v("Назад")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "sub-menu", attrs: { id: "show-more-info-msg" } },
-      [
-        _c("ul", [
-          _c("li", [
-            _c("a", { attrs: { href: "#" } }, [
-              _vm._v("Очистить историю сообщений")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", [
-            _c("a", { attrs: { href: "#" } }, [
-              _vm._v("Заблокировать пользователя")
-            ])
-          ])
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

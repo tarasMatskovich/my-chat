@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/session/{session}/chats', [\App\Http\Controllers\MessagesController::class, 'chats'])->name('messages.chats');
     Route::post('/session/{session}/read', [\App\Http\Controllers\MessagesController::class, 'read'])->name('messages.read');
     Route::post('/session/unread', [\App\Http\Controllers\SessionController::class, 'unread'])->name('messages.unread');
+    Route::post('/session/{session}/clear', [\App\Http\Controllers\MessagesController::class, 'clear'])->name('messages.clear');
     Route::post('/send/{session}', [\App\Http\Controllers\MessagesController::class, 'send'])->name('messages.send');
 
     Route::post("/sessions", [\App\Http\Controllers\SessionController::class, 'index'])->name('sessions');

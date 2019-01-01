@@ -57,4 +57,13 @@ class MessagesController extends Controller
         broadcast(new PrivateChatEvent($message->content, $chat, $chat->user));
         return response($chat->id, 200);
     }
+
+    public function clear(Session $session)
+    {
+        $session->chats()->where('user_id', auth()->id())->delete();
+        if ($session->chats->count() == 0) {
+            $session->messages()->delete();
+        }
+        return response('cleared', 200);
+    }
 }
