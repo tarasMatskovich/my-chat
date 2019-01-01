@@ -8,5 +8,6 @@
             default-image="<?=asset('img') . '/no-photo.png'?>"
             session-id="<?=$session->id?>"
             :online-users="onlineUsers"
+            ref="message"
     ></message-component>
 @endsection

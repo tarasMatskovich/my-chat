@@ -32,7 +32,7 @@
                             <a class="nav-link" href="{{route('home')}}">Главная <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{route('messages.messages')}}">Сообщения</a>
+                            <a class="nav-link" href="{{route('messages.messages')}}">Сообщения<unread-count-component :unread-count="unreadCount"></unread-count-component></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('user', ['id' => auth()->id()])}}">Мой профиль</a>

@@ -22,6 +22,7 @@ Vue.component('pagination-component', require('./components/PaginationComponent.
 Vue.component('message-component', require('./components/MessageComponent'));
 Vue.component('notification-component', require('./components/NotificationComponent.vue'));
 Vue.component('dialogs-component', require('./components/DialogsComponent'));
+Vue.component('unread-count-component', require('./components/UnreadCountComponent.vue'));
 
 const app = new Vue({
     el: '#app',
@@ -31,10 +32,16 @@ const app = new Vue({
             allUsers:[],
             showNotification:false,
             message:null,
-            allOnlineUsers:[]
+            allOnlineUsers:[],
+            unreadCount:0
         };
     },
     methods: {
+        getUnreadCount() {
+            axios.post("/session/unread").then((res) => {
+                this.unreadCount = res.data.unreadCount;
+            });
+        },
         findFullUser(user) {
             var neededUser = null;
             this.allUsers.forEach((fullUser) => {
@@ -115,6 +122,7 @@ const app = new Vue({
                 //     user.session.unreadCount++;
                 // }
                 this.notifyAboutMessage(e);
+                this.getUnreadCount();
             });
         },
         getAllUsers() {
@@ -130,6 +138,7 @@ const app = new Vue({
         }
     },
     created: function () {
+        this.getUnreadCount();
         Echo.join('Chat')
             .here((users) => {
                 users.forEach((user) => {
@@ -137,6 +146,9 @@ const app = new Vue({
                 });
                 if (this.$refs.user != undefined) {
                     this.$refs.user.checkOnline();
+                }
+                if (this.$refs.message != undefined) {
+                    this.getUnreadCount();
                 }
                 this.getAllUsers();
             })

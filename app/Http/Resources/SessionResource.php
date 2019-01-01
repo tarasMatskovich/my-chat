@@ -27,6 +27,8 @@ class SessionResource extends JsonResource
             "id" => $this->id,
             "updated_at" => $this->updated_at,
             "user" => $user,
+            'unreadCount' => $this->chats->where('read_at', null)->where('type', 0)
+                ->where('user_id', '!=', auth()->id())->count(),
             "last_message" => new DialogMessageResource(
                 $this->chats()->where("type", 0)->orderBy("id", "desc")->first()
             )
