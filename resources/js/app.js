@@ -116,13 +116,16 @@ const app = new Vue({
                 self.showNotification = false;
             },5000);
         },
+        triggerDialogs(message) {
+            if (this.$refs.dialogs != undefined) {
+                this.$refs.dialogs.trigger(message);
+            }
+        },
         listenForEverySession(user) {
             Echo.private(`Chat.${user.session.id}`).listen("PrivateChatEvent", (e) => {
-                // if (!user.session.open) {
-                //     user.session.unreadCount++;
-                // }
                 this.notifyAboutMessage(e);
                 this.getUnreadCount();
+                this.triggerDialogs(e);
             });
         },
         getAllUsers() {

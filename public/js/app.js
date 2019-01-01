@@ -14428,15 +14428,18 @@ var app = new Vue({
                 self.showNotification = false;
             }, 5000);
         },
+        triggerDialogs: function triggerDialogs(message) {
+            if (this.$refs.dialogs != undefined) {
+                this.$refs.dialogs.trigger(message);
+            }
+        },
         listenForEverySession: function listenForEverySession(user) {
             var _this4 = this;
 
             Echo.private('Chat.' + user.session.id).listen("PrivateChatEvent", function (e) {
-                // if (!user.session.open) {
-                //     user.session.unreadCount++;
-                // }
                 _this4.notifyAboutMessage(e);
                 _this4.getUnreadCount();
+                _this4.triggerDialogs(e);
             });
         },
         getAllUsers: function getAllUsers() {
@@ -59510,6 +59513,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        trigger: function trigger(message) {
+            this.dialogs.forEach(function (dialog) {
+                if (dialog.id == message.chat.session_id) {
+                    dialog.last_message.message = message.content;
+                }
+            });
+        },
         getDialogs: function getDialogs() {
             var _this = this;
 

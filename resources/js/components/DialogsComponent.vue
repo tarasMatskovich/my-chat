@@ -50,6 +50,13 @@
           }
         },
         methods: {
+            trigger(message) {
+                this.dialogs.forEach((dialog) => {
+                    if (dialog.id == message.chat.session_id) {
+                        dialog.last_message.message = message.content;
+                    }
+                });
+            },
             getDialogs() {
                 axios.post(`/sessions`).then(res => {
                     this.dialogs = res.data.data;
