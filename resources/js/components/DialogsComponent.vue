@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="col-9">
-                        <a :href="renderUserRoute(dialog.last_message.user)" class="first-name">{{dialog.user.first_name}} {{dialog.user.last_name}}</a>
+                        <a :href="renderUserRoute(dialog.last_message.user)" class="first-name">{{dialog.user.first_name}} {{dialog.user.last_name}} <unread-count-component :unreadCount="dialog.unreadCount"></unread-count-component></a>
                         <div class="msg-info align-self-end">
                             <div class="row">
                                 <div class="col-2">
@@ -54,6 +54,7 @@
                 this.dialogs.forEach((dialog) => {
                     if (dialog.id == message.chat.session_id) {
                         dialog.last_message.message = message.content;
+                        dialog.unreadCount++;
                     }
                 });
             },

@@ -59517,6 +59517,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.dialogs.forEach(function (dialog) {
                 if (dialog.id == message.chat.session_id) {
                     dialog.last_message.message = message.content;
+                    dialog.unreadCount++;
                 }
             });
         },
@@ -59597,9 +59598,14 @@ var render = function() {
                         _vm._v(
                           _vm._s(dialog.user.first_name) +
                             " " +
-                            _vm._s(dialog.user.last_name)
-                        )
-                      ]
+                            _vm._s(dialog.user.last_name) +
+                            " "
+                        ),
+                        _c("unread-count-component", {
+                          attrs: { unreadCount: dialog.unreadCount }
+                        })
+                      ],
+                      1
                     ),
                     _vm._v(" "),
                     _c("div", { staticClass: "msg-info align-self-end" }, [
