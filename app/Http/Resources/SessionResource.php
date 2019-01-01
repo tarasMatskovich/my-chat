@@ -18,7 +18,7 @@ class SessionResource extends JsonResource
         if ($this->user1_id != auth()->id()) {
             $user = $this->user1;
         } elseif($this->user2_id != auth()->id()) {
-            $user = $this->user2_id;
+            $user = $this->user2;
         }
         return [
             "block" => $this->block,

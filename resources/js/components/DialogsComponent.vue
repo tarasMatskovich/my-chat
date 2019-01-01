@@ -6,7 +6,7 @@
                     <h2>Диалоги</h2>
                 </div>
             </div>
-            <div class="message d-flex" v-for="dialog in dialogs" v-if="dialog.user">
+            <div class="message d-flex" v-for="dialog in dialogs" v-if="dialog && dialog.user && dialog.last_message">
                 <div class="row">
                     <div class="col-3">
                         <div class="img-wrapp">
