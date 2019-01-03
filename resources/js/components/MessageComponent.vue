@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-8">
                         <div class="info">
-                            <a :href="getUserRoute(user2.id)">{{user2.first_name}} {{user2.last_name}}</a><br>
+                            <a :class="{'text-danger':blocked}" :href="getUserRoute(user2.id)">{{user2.first_name}} {{user2.last_name}} <span v-if="blocked">(Пользователь заблокирован)</span></a><br>
                             <p>
                                 {{getStatus()}}
                             </p>
@@ -26,8 +26,11 @@
                                     <li>
                                         <a href="#" @click.prevent="clear">Очистить историю сообщений</a>
                                     </li>
-                                    <li>
+                                    <li v-if="!blocked">
                                         <a href="#" @click.prevent="block">Заблокировать пользователя</a>
+                                    </li>
+                                    <li v-if="blocked && canUnBlock">
+                                        <a href="#" @click.prevent="unBlock">Разблокировать пользователя</a>
                                     </li>
                                 </ul>
                             </div>
@@ -77,7 +80,7 @@
                 <div class="row justify-content-center">
                     <div class="col-10">
                         <form class="form-group" @submit.prevent="send">
-                            <input type="text" v-model="message" placeholder="Напишите сообщение..." class="form-control">
+                            <input type="text" v-model="message" placeholder="Напишите сообщение..." class="form-control" :disabled="Boolean(blocked)">
                         </form>
                     </div>
                 </div>
@@ -108,11 +111,26 @@
                 user1 : JSON.parse(this.userOne),
                 user2 : JSON.parse(this.userTwo),
                 message:null,
-                messages:[]
+                messages:[],
+                blocked:false,
+                blocked_by:null,
+                session:null
+            }
+        },
+        computed : {
+            canUnBlock() {
+                return this.blocked_by == authId;
             }
         },
         props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers', 'backUrl'],
         methods: {
+            getSession() {
+                axios.post(`/session/${this.sessionId}/getSession`).then(res => {
+                    this.session = res.data;
+                    this.blocked = this.session.block;
+                    this.blocked_by = this.session.blocked_by;
+                });
+            },
             getUserRoute(id) {
                 return "/user/" + id;
             },
@@ -122,7 +140,16 @@
                 });
             },
             block() {
-                alert("block");
+                this.blocked = true;
+                axios.post(`/session/${this.sessionId}/block`).then(res => {
+                    this.blocked_by = authId;
+                });
+            },
+            unBlock() {
+                this.blocked = false;
+                axios.post(`/session/${this.sessionId}/unblock`).then(res => {
+                    this.blocked_by = null;
+                });
             },
             renderMessage(message) {
               var words = message.split(" ");
@@ -207,6 +234,7 @@
         created: function () {
             this.read();
             this.getAllMessages();
+            this.getSession();
             Echo.private(`Chat.${this.sessionId}`).listen("PrivateChatEvent", (e) => {
                 this.read();
                 var date = this.getDate();
@@ -219,6 +247,10 @@
                         message.read_at = e.chat.read_at.date;
                     }
                 });
+            });
+
+            Echo.private(`Chat.${this.sessionId}`).listen("BlockEvent", (e) => {
+                this.blocked = e.blocked;
             });
         }
     }

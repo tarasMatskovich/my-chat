@@ -37,4 +37,8 @@ class SessionController extends Controller
     {
         dd($this->getUserSessions()->toArray($request));
     }
+
+    public function getSession(Session $session) {
+        return $session;
+    }
 }

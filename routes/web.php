@@ -27,8 +27,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/session/{session}/read', [\App\Http\Controllers\MessagesController::class, 'read'])->name('messages.read');
     Route::post('/session/unread', [\App\Http\Controllers\SessionController::class, 'unread'])->name('messages.unread');
     Route::post('/session/{session}/clear', [\App\Http\Controllers\MessagesController::class, 'clear'])->name('messages.clear');
+    Route::post('/session/{session}/block', [\App\Http\Controllers\BlockController::class, 'block'])->name('messages.block');
+    Route::post('/session/{session}/unblock', [\App\Http\Controllers\BlockController::class, 'unblock'])->name('messages.unblock');
     Route::post('/send/{session}', [\App\Http\Controllers\MessagesController::class, 'send'])->name('messages.send');
-
+    Route::post('/session/{session}/getSession', [\App\Http\Controllers\SessionController::class, 'getSession'])->name('session.get');
     Route::post("/sessions", [\App\Http\Controllers\SessionController::class, 'index'])->name('sessions');
 
 

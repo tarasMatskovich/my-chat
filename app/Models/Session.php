@@ -28,4 +28,19 @@ class Session extends Model
     {
         return $this->belongsTo(User::class, "user2_id", "id");
     }
+
+    public function block()
+    {
+        $this->block = true;
+        $this->blocked_by = auth()->id();
+        $this->save();
+        return $this->hasOne(User::class, 'id', 'bloked_by');
+    }
+
+    public function unblock()
+    {
+        $this->block = false;
+        $this->blocked_by = null;
+        $this->save();
+    }
 }

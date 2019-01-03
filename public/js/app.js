@@ -511,110 +511,6 @@ module.exports = g;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(24);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(10);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(10);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  /**
-   * A timeout in milliseconds to abort a request. If set to 0 (default) a
-   * timeout is not created.
-   */
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports) {
 
 /*
@@ -696,7 +592,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -922,6 +818,110 @@ function applyToTag (styleElement, obj) {
   }
 }
 
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(24);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(10);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(10);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
 /* 6 */
@@ -14298,7 +14298,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(70);
+module.exports = __webpack_require__(75);
 
 
 /***/ }),
@@ -14329,7 +14329,7 @@ Vue.component('pagination-component', __webpack_require__(54));
 Vue.component('message-component', __webpack_require__(57));
 Vue.component('notification-component', __webpack_require__(62));
 Vue.component('dialogs-component', __webpack_require__(67));
-Vue.component('unread-count-component', __webpack_require__(74));
+Vue.component('unread-count-component', __webpack_require__(70));
 
 var app = new Vue({
     el: '#app',
@@ -35668,7 +35668,7 @@ module.exports = __webpack_require__(21);
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(8);
 var Axios = __webpack_require__(23);
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(5);
 
 /**
  * Create an instance of Axios
@@ -35751,7 +35751,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(5);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(32);
 var dispatchRequest = __webpack_require__(33);
@@ -36290,7 +36290,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(34);
 var isCancel = __webpack_require__(12);
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(5);
 var isAbsoluteURL = __webpack_require__(35);
 var combineURLs = __webpack_require__(36);
 
@@ -57810,7 +57810,7 @@ var content = __webpack_require__(50);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("19577ead", content, false, {});
+var update = __webpack_require__(4)("19577ead", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -57829,7 +57829,7 @@ if(false) {
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(3)(false);
 // imports
 
 
@@ -58692,7 +58692,7 @@ var content = __webpack_require__(59);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("675d29b1", content, false, {});
+var update = __webpack_require__(4)("675d29b1", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -58711,7 +58711,7 @@ if(false) {
 /* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(3)(false);
 // imports
 
 
@@ -58830,6 +58830,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -58837,24 +58840,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             user1: JSON.parse(this.userOne),
             user2: JSON.parse(this.userTwo),
             message: null,
-            messages: []
+            messages: [],
+            blocked: false,
+            blocked_by: null,
+            session: null
         };
     },
 
+    computed: {
+        canUnBlock: function canUnBlock() {
+            return this.blocked_by == authId;
+        }
+    },
     props: ['userOne', 'userTwo', 'asset', 'defaultImage', 'sessionId', 'onlineUsers', 'backUrl'],
     methods: {
+        getSession: function getSession() {
+            var _this = this;
+
+            axios.post('/session/' + this.sessionId + '/getSession').then(function (res) {
+                _this.session = res.data;
+                _this.blocked = _this.session.block;
+                _this.blocked_by = _this.session.blocked_by;
+            });
+        },
         getUserRoute: function getUserRoute(id) {
             return "/user/" + id;
         },
         clear: function clear() {
-            var _this = this;
+            var _this2 = this;
 
             axios.post('/session/' + this.sessionId + '/clear').then(function (res) {
-                _this.messages = [];
+                _this2.messages = [];
             });
         },
         block: function block() {
-            alert("block");
+            var _this3 = this;
+
+            this.blocked = true;
+            axios.post('/session/' + this.sessionId + '/block').then(function (res) {
+                _this3.blocked_by = authId;
+            });
+        },
+        unBlock: function unBlock() {
+            var _this4 = this;
+
+            this.blocked = false;
+            axios.post('/session/' + this.sessionId + '/unblock').then(function (res) {
+                _this4.blocked_by = null;
+            });
         },
         renderMessage: function renderMessage(message) {
             var words = message.split(" ");
@@ -58915,7 +58948,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         send: function send() {
-            var _this2 = this;
+            var _this5 = this;
 
             if (this.message) {
                 this.pushToChats(this.message);
@@ -58923,16 +58956,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     msg_content: this.message,
                     to_user: this.user2.id
                 }).then(function (res) {
-                    _this2.messages[_this2.messages.length - 1].id = res.data;
+                    _this5.messages[_this5.messages.length - 1].id = res.data;
                 });
                 this.message = null;
             }
         },
         getAllMessages: function getAllMessages() {
-            var _this3 = this;
+            var _this6 = this;
 
             axios.post('/session/' + this.sessionId + '/chats').then(function (res) {
-                _this3.messages = res.data.data;
+                _this6.messages = res.data.data;
             });
         },
         read: function read() {
@@ -58940,22 +58973,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
-        var _this4 = this;
+        var _this7 = this;
 
         this.read();
         this.getAllMessages();
+        this.getSession();
         Echo.private('Chat.' + this.sessionId).listen("PrivateChatEvent", function (e) {
-            _this4.read();
-            var date = _this4.getDate();
-            _this4.messages.push({ message: e.content, type: 1, send_at: date });
+            _this7.read();
+            var date = _this7.getDate();
+            _this7.messages.push({ message: e.content, type: 1, send_at: date });
         });
 
         Echo.private('Chat.' + this.sessionId).listen("MsgReadEvent", function (e) {
-            _this4.messages.forEach(function (message) {
+            _this7.messages.forEach(function (message) {
                 if (message.id == e.chat.id) {
                     message.read_at = e.chat.read_at.date;
                 }
             });
+        });
+
+        Echo.private('Chat.' + this.sessionId).listen("BlockEvent", function (e) {
+            _this7.blocked = e.blocked;
         });
     }
 });
@@ -58986,13 +59024,24 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-8" }, [
             _c("div", { staticClass: "info" }, [
-              _c("a", { attrs: { href: _vm.getUserRoute(_vm.user2.id) } }, [
-                _vm._v(
-                  _vm._s(_vm.user2.first_name) +
-                    " " +
-                    _vm._s(_vm.user2.last_name)
-                )
-              ]),
+              _c(
+                "a",
+                {
+                  class: { "text-danger": _vm.blocked },
+                  attrs: { href: _vm.getUserRoute(_vm.user2.id) }
+                },
+                [
+                  _vm._v(
+                    _vm._s(_vm.user2.first_name) +
+                      " " +
+                      _vm._s(_vm.user2.last_name) +
+                      " "
+                  ),
+                  _vm.blocked
+                    ? _c("span", [_vm._v("(Пользователь заблокирован)")])
+                    : _vm._e()
+                ]
+              ),
               _c("br"),
               _vm._v(" "),
               _c("p", [
@@ -59033,21 +59082,41 @@ var render = function() {
                       )
                     ]),
                     _vm._v(" "),
-                    _c("li", [
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.block($event)
-                            }
-                          }
-                        },
-                        [_vm._v("Заблокировать пользователя")]
-                      )
-                    ])
+                    !_vm.blocked
+                      ? _c("li", [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.block($event)
+                                }
+                              }
+                            },
+                            [_vm._v("Заблокировать пользователя")]
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.blocked && _vm.canUnBlock
+                      ? _c("li", [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.unBlock($event)
+                                }
+                              }
+                            },
+                            [_vm._v("Разблокировать пользователя")]
+                          )
+                        ])
+                      : _vm._e()
                   ])
                 ]
               ),
@@ -59205,7 +59274,11 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", placeholder: "Напишите сообщение..." },
+                  attrs: {
+                    type: "text",
+                    placeholder: "Напишите сообщение...",
+                    disabled: Boolean(_vm.blocked)
+                  },
                   domProps: { value: _vm.message },
                   on: {
                     input: function($event) {
@@ -59296,7 +59369,7 @@ var content = __webpack_require__(64);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("06ff512c", content, false, {});
+var update = __webpack_require__(4)("06ff512c", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -59315,7 +59388,7 @@ if(false) {
 /* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(3)(false);
 // imports
 
 
@@ -59732,27 +59805,18 @@ if (false) {
 
 /***/ }),
 /* 70 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(75)
+  __webpack_require__(71)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(77)
+var __vue_script__ = __webpack_require__(73)
 /* template */
-var __vue_template__ = __webpack_require__(78)
+var __vue_template__ = __webpack_require__(74)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -59791,17 +59855,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 75 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(76);
+var content = __webpack_require__(72);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(5)("68343e89", content, false, {});
+var update = __webpack_require__(4)("68343e89", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -59817,10 +59881,10 @@ if(false) {
 }
 
 /***/ }),
-/* 76 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(false);
+exports = module.exports = __webpack_require__(3)(false);
 // imports
 
 
@@ -59831,7 +59895,7 @@ exports.push([module.i, "\n\n\n\n\n\n", ""]);
 
 
 /***/ }),
-/* 77 */
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59855,7 +59919,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 78 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -59877,6 +59941,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-e1d94eb0", module.exports)
   }
 }
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
