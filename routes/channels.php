@@ -20,8 +20,6 @@ Broadcast::channel('Chat', function ($user) {
 });
 
 Broadcast::channel('Chat.{session}', function ($user, \App\Models\Session $session) {
-    \Log::info("===========================================================");
-    \Log::info($user->id);
     if ($user->id == $session->user1_id || $user->id == $session->user2_id) {
         return true;
     }
