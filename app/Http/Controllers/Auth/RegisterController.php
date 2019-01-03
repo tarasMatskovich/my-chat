@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class RegisterController extends Controller
 {
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -48,11 +50,49 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
+        return Validator::make(
+            $data,
+            [
+                'first_name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+                'age' => ['required'],
+                'phone' => ['required', 'string'],
+                'image' => 'image'
+            ],
+            [
+                'first_name.required' => 'Поле :attribute обезательно к заполнению.',
+                'first_name.string' => 'Поле :attribute должно быть строковым.',
+                'first_name.max:255' => 'Поле :attribute не должно превышать :max символов',
+                'last_name.required' => 'Поле :attribute обезательно к заполнению.',
+                'last_name.string' => 'Поле :attribute должно быть строковым.',
+                'last_name.max:255' => 'Поле :attribute не должно превышать :max символов.',
+                'email.required' => 'Поле :attribute обезательно к заполнению.',
+                'email.string' => 'Поле :attribute должно быть строковым.',
+                'email.email' => 'Поле :attribute должно быть в формате email.',
+                'email.max:255' => 'Поле :attribute не должно превышать :max символов.',
+                'email.unique:users' => 'Такой email уже существует в системе.',
+                'password.required' => 'Поле :attribute обезательно к заполнению.',
+                'password.string' => 'Поле :attribute должно быть строковым.',
+                'password.min:6' => 'Поле :attribute далжно быть не менее :min символов',
+                'password.confirmed' => 'Пароли должны совпадать.',
+                'age.required' => 'Поле :attribute обезательно к заполнению.',
+                'phone.required' =>'Поле :attribute обезательно к заполнению.',
+                'phone.string' => 'Поле :attribute должно быть строковым.',
+            ],
+            [
+                'first_name' => 'Имя',
+                'last_name' => 'Фамилия',
+                'email' => 'email',
+                'password' => 'Пароль',
+                'password_confirmation' => 'Подтверджение пароля',
+                'age' => 'Возраст',
+                'phone' => 'Мобильный телефон',
+                'city' => 'Город',
+                'about' => 'Обо мне',
+                'image' => 'Изображение'
+            ]);
     }
 
     /**
@@ -63,10 +103,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $user = new User($data);
+        if (isset($data['image'])) {
+            $inputImage = $data['image'];
+            $filename = time() . '.' . $inputImage->getClientOriginalExtension();
+            $path = public_path('img/users/' . $filename);
+            Image::make($data['image'])->fit(350)->save($path);
+            $user->img = $filename;
+        }
+        $user->password = Hash::make($data['password']);
+        $user->save();
+        return $user;
     }
 }

@@ -16,7 +16,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'email_verified_at',
+        'remember_token',
+        'city',
+        'age',
+        'phone',
+        'about',
+        'img'
     ];
 
     /**
@@ -27,4 +37,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * The attributes that are guarded
+     * @var array
+     */
+    protected $guarded = [];
+
+    public function deleteImage()
+    {
+        app(\Illuminate\Filesystem\Filesystem::class)->delete(public_path('img/users/' . $this->img));
+    }
 }

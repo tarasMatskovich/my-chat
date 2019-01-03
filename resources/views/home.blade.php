@@ -1,23 +1,16 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
+    <section class="all-users">
+        <div class="container">
+            <users-component
+                    asset="<?=asset('img/users')?>"
+                    default-image="<?=asset('img') . '/no-photo.png'?>"
+                    message-url="<?=route('messages.message',['id'=>''])?>"
+                    :online-users="onlineUsers"
+                    ref="user"
+                    :all-online-users="allOnlineUsers"
+            ></users-component>
         </div>
-    </div>
-</div>
+    </section>
 @endsection
