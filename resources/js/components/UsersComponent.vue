@@ -33,7 +33,7 @@
                                             <i class="fas fa-circle online"></i>
                                         </span>
                                         </h5>
-                                        <a :href="messageUrl + '/' + user.id" class="write-msg">Написать сообщение</a>
+                                        <a :href="messageUrl + '/' + user.id" class="write-msg" v-if="user.id != authUserId">Написать сообщение</a>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                                             <i class="fas fa-circle online"></i>
                                         </span>
                                         </h5>
-                                        <a :href="messageUrl + '/' + user.id" class="write-msg">Написать сообщение</a>
+                                        <a :href="messageUrl + '/' + user.id" class="write-msg" v-if="user.id != authUserId">Написать сообщение</a>
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
         mounted() {
           this.$on('check', this.checkOnline());
         },
-        props: ['asset', 'defaultImage', 'messageUrl', 'onlineUsers', 'allOnlineUsers'],
+        props: ['asset', 'defaultImage', 'messageUrl', 'onlineUsers', 'allOnlineUsers', 'authUserId'],
         methods: {
             makeAllUsersActive() {
                 this.allUsersActive = true;

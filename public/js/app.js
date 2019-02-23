@@ -58019,7 +58019,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$on('check', this.checkOnline());
     },
 
-    props: ['asset', 'defaultImage', 'messageUrl', 'onlineUsers', 'allOnlineUsers'],
+    props: ['asset', 'defaultImage', 'messageUrl', 'onlineUsers', 'allOnlineUsers', 'authUserId'],
     methods: {
         makeAllUsersActive: function makeAllUsersActive() {
             this.allUsersActive = true;
@@ -58202,16 +58202,18 @@ var render = function() {
                                     : _vm._e()
                                 ]),
                                 _vm._v(" "),
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "write-msg",
-                                    attrs: {
-                                      href: _vm.messageUrl + "/" + user.id
-                                    }
-                                  },
-                                  [_vm._v("Написать сообщение")]
-                                )
+                                user.id != _vm.authUserId
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "write-msg",
+                                        attrs: {
+                                          href: _vm.messageUrl + "/" + user.id
+                                        }
+                                      },
+                                      [_vm._v("Написать сообщение")]
+                                    )
+                                  : _vm._e()
                               ])
                             ])
                           ])
@@ -58288,16 +58290,18 @@ var render = function() {
                                     : _vm._e()
                                 ]),
                                 _vm._v(" "),
-                                _c(
-                                  "a",
-                                  {
-                                    staticClass: "write-msg",
-                                    attrs: {
-                                      href: _vm.messageUrl + "/" + user.id
-                                    }
-                                  },
-                                  [_vm._v("Написать сообщение")]
-                                )
+                                user.id != _vm.authUserId
+                                  ? _c(
+                                      "a",
+                                      {
+                                        staticClass: "write-msg",
+                                        attrs: {
+                                          href: _vm.messageUrl + "/" + user.id
+                                        }
+                                      },
+                                      [_vm._v("Написать сообщение")]
+                                    )
+                                  : _vm._e()
                               ])
                             ])
                           ])

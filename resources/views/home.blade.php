@@ -10,6 +10,7 @@
                     :online-users="onlineUsers"
                     ref="user"
                     :all-online-users="allOnlineUsers"
+                    auth-user-id="<?= auth()->id()?>"
             ></users-component>
         </div>
     </section>
