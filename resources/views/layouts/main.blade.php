@@ -93,17 +93,17 @@
                         <div class="col-md-8">
                             <ul>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{route('home')}}">
                                         Главная
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{route('messages.messages')}}">
                                         Сообщения
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{route('user', ['id' => auth()->id()])}}">
                                         Мой профиль
                                     </a>
                                 </li>
