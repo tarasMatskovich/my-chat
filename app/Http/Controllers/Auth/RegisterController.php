@@ -59,7 +59,7 @@ class RegisterController extends Controller
                 'password' => ['required', 'string', 'min:6', 'confirmed'],
                 'age' => ['required'],
                 'phone' => ['required', 'string'],
-                'image' => 'image'
+                'image' => ['image', 'required']
             ],
             [
                 'first_name.required' => 'Поле :attribute обезательно к заполнению.',
@@ -80,6 +80,8 @@ class RegisterController extends Controller
                 'age.required' => 'Поле :attribute обезательно к заполнению.',
                 'phone.required' =>'Поле :attribute обезательно к заполнению.',
                 'phone.string' => 'Поле :attribute должно быть строковым.',
+                'image.image' => 'Файл должен быть изображением',
+                'image.required' => 'Изображение обезятельное',
             ],
             [
                 'first_name' => 'Имя',

@@ -33,15 +33,6 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{route('home')}}">Главная <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('messages.messages')}}">Сообщения<unread-count-component :unread-count="unreadCount"></unread-count-component></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('user', ['id' => auth()->id()])}}">Мой профиль</a>
-                        </li>
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('login')}}">Войти</a>
@@ -50,6 +41,15 @@
                                 <a class="nav-link" href="{{route('register')}}">Зарегистрироваться</a>
                             </li>
                         @else
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{route('home')}}">Главная <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('messages.messages')}}">Сообщения<unread-count-component :unread-count="unreadCount"></unread-count-component></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('user', ['id' => auth()->id()])}}">Мой профиль</a>
+                            </li>
                             <li class="nav-item">
                                 <form method="POST" action="{{route('logout')}}" id="logout-form">
                                     @csrf
@@ -97,16 +97,20 @@
                                         Главная
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="{{route('messages.messages')}}">
-                                        Сообщения
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{route('user', ['id' => auth()->id()])}}">
-                                        Мой профиль
-                                    </a>
-                                </li>
+                                @guest
+
+                                @else
+                                    <li>
+                                        <a href="{{route('messages.messages')}}">
+                                            Сообщения
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('user', ['id' => auth()->id()])}}">
+                                            Мой профиль
+                                        </a>
+                                    </li>
+                                @endguest
                             </ul>
                         </div>
                         <div class="col-md-4">
